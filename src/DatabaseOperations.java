@@ -10,6 +10,8 @@ import java.sql.Statement;
 
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  * To change this template, choose Tools | Templates
@@ -18,19 +20,22 @@ import java.util.Properties;
 
 /**
  *
- * @author salih
+ * @author Salih ERİKCİ
  */
 public class DatabaseOperations {
     
-    private static final String DB_NAME = "ertas"; // the name of the database
+    private static final String DB_NAME = "qazxcswedvfr"; // the name of the database
             
     private static String framework = "embedded";
     private static String driver = "org.apache.derby.jdbc.EmbeddedDriver";
     private static String protocol = "jdbc:derby:";
     
     
+    
+    
     private static Connection conn;
     private static ResultSet rs;
+    private static Statement statement ;
     private static PreparedStatement insertCustomer ;
     private static PreparedStatement insertPayment;
     private static PreparedStatement insertSale;
@@ -67,13 +72,32 @@ public class DatabaseOperations {
         
     }
     
-    public static void initializeDB() throws SQLException{
+    public static void initializeDB()  {
+        
         loadDriver();
         
-        conn  = DriverManager.getConnection(protocol + DB_NAME
-                    + ";create=true");
+        try{
+            connectToDatabase();
+        }catch(Exception ex){
+            try {
+                createDatabase();
+            } catch (SQLException ex1) {
+                Logger.getLogger(DatabaseOperations.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            
+        }
         
-        conn.setAutoCommit(false);    
+        
+        
+        
+
+
+            System.out.println("Connecting");
+            
+  
+           
+        
+        
         
         
         
@@ -86,8 +110,9 @@ public class DatabaseOperations {
      *
      */
     public static void initializePreparedStatements() throws SQLException{
+        
         insertCustomer  = conn.prepareStatement(
-                        "insert into Customer values (?, ?)");
+                        "insert into Customer values (?, ?, ?, ?, ?)");
         insertPayment   = conn.prepareStatement(
                         "insert into Payment values (?, ?)");
         insertSale      = conn.prepareStatement(
@@ -126,6 +151,83 @@ public class DatabaseOperations {
             iae.printStackTrace(System.err);
         }
     }
+
+    private static void createDatabase() throws SQLException {
+          conn = DriverManager.getConnection(protocol + DB_NAME
+                    + ";create=true"); //To change body of generated methods, choose Tools | Templates.
+          System.out.println("Database created!!!");
+
+          createCustomerTable();
+          createPaymentTable();
+          createSaleTable();
+    }
+
+    private static void createCustomerTable() throws SQLException{
+        try {
+            statement = conn.createStatement();
+            System.out.println("Creating customer table");
+            statement.execute(""
+                    + "create table CUSTOMER ("
+                    + "c_id INTEGER primary key generated always as identity(start with 1, increment by 1),"
+                    + "cName varchar(24) not null, "
+                    + "cSurname varchar(24) not null,"
+                    + "cAddress varchar(100), "
+                    + "cLastVisitDate date ,"
+                    + "totalDept decimal(20,2) "
+                    + ")");
+            System.out.println("Created customer table");
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseOperations.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private static void createPaymentTable() {
+        try {
+            statement = conn.createStatement();
+            System.out.println("Creating Payment table");
+            statement.execute(""
+                    + "create table PAYMENT ("
+                    + "p_id INTEGER primary key generated always as identity(start with 1, increment by 1),"
+                    + "c_id INTEGER not null, "
+                    + "paymentAmount decimal(20,2) not null, "
+                    + "paymentDate date not null,"
+                    + "FOREIGN KEY (c_id)"
+                    + "REFERENCES CUSTOMER (c_id)"
+                    + ")");
+            System.out.println("Created Payment table");
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseOperations.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+
+    private static void createSaleTable() {
+        try {
+            statement = conn.createStatement();
+            System.out.println("Creating Sale table");
+            statement.execute(""
+                    + "create table SALE ("
+                    + "s_id INTEGER primary key generated always as identity(start with 1, increment by 1),"
+                    + "c_id INTEGER not null, "
+                    + "saleAmount decimal(20,2) not null, "
+                    + "firstPayAmount decimal(20,2) not null,"
+                    + "saleDate date not null,"
+                    + "FOREIGN KEY (c_id)"
+                    + "REFERENCES Customer (c_id)"
+                    + ")");
+            System.out.println("Created Sale table");
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseOperations.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+    }
+
+    private static void connectToDatabase() throws SQLException {
+            conn = DriverManager.getConnection(protocol + DB_NAME
+                      + ";create=false");
+        }
     
     
 }
