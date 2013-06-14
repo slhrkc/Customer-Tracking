@@ -1,4 +1,5 @@
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Date;
 import java.sql.Connection;
@@ -24,7 +25,7 @@ import java.util.logging.Logger;
  */
 public class DatabaseOperations {
     
-    private static final String DB_NAME = "qazxcswedvfr"; // the name of the database
+    private static final String DB_NAME = "owuhfd"; // the name of the database
             
     private static String framework = "embedded";
     private static String driver = "org.apache.derby.jdbc.EmbeddedDriver";
@@ -36,6 +37,8 @@ public class DatabaseOperations {
     private static Connection conn;
     private static ResultSet rs;
     private static Statement statement ;
+    
+    private static PreparedStatement selectAllCustomers;
     private static PreparedStatement insertCustomer ;
     private static PreparedStatement insertPayment;
     private static PreparedStatement insertSale;
@@ -68,7 +71,34 @@ public class DatabaseOperations {
      * 
      * @param customer the customer to be saved into the database
      */
-    public static void saveCustomer(Customer customer){
+    public static void saveCustomer(Customer customer) throws SQLException{
+        if(insertCustomer==null){
+            System.out.println("Haydaaaaaaaaa");
+        }
+        
+
+        insertCustomer.setString(1, customer.name);
+        insertCustomer.setString(2, customer.lastName);
+        insertCustomer.setString(3, customer.address);
+        insertCustomer.setString(4, customer.pbx);
+        insertCustomer.setString(5, customer.gsm);
+        
+        insertCustomer.executeUpdate();
+        rs = insertCustomer.getGeneratedKeys();
+        if(rs==null){System.out.println("Haydaaaaaaaa");}
+        while(rs.next()){
+            System.out.println(rs.getInt(1));
+            
+        }
+ 
+        //selectAllCustomers();
+    }
+    
+    public static void newSale(int c_id, BigDecimal saleAmount, BigDecimal paymentAmount, Date date  ){
+        
+    }
+    
+    public static void newPayment(int c_id,BigDecimal paymentAmount, Date date  ){
         
     }
     
@@ -85,7 +115,12 @@ public class DatabaseOperations {
                 Logger.getLogger(DatabaseOperations.class.getName()).log(Level.SEVERE, null, ex1);
             }
             
-        }
+        }finally{try {
+                initializePreparedStatements();
+            } catch (SQLException ex) {
+                Logger.getLogger(DatabaseOperations.class.getName()).log(Level.SEVERE, null, ex);
+            }
+}
         
         
         
@@ -110,13 +145,16 @@ public class DatabaseOperations {
      *
      */
     public static void initializePreparedStatements() throws SQLException{
+//        INTO tableName(col1, col2) VALUES (?,?)
+        
+        selectAllCustomers = conn.prepareStatement("select * from Customer");
         
         insertCustomer  = conn.prepareStatement(
-                        "insert into Customer values (?, ?, ?, ?, ?)");
+                        "insert into Customer(cName, cSurname, cAddress, cPbx, cGsm) values (?, ?, ?, ?, ? )",Statement.RETURN_GENERATED_KEYS);
         insertPayment   = conn.prepareStatement(
-                        "insert into Payment values (?, ?)");
+                        "insert into Payment(c_id, paymentAmount, paymentDate) values (?, ?, ?)");
         insertSale      = conn.prepareStatement(
-                        "insert into Sale values (?, ?)");
+                        "insert into Sale(c_id, saleAmount, firstPayAmount, saleDate) values (?, ?, ?, ?)");
     }
     
     
@@ -172,6 +210,8 @@ public class DatabaseOperations {
                     + "cName varchar(24) not null, "
                     + "cSurname varchar(24) not null,"
                     + "cAddress varchar(100), "
+                    + "cPbx varchar(10),"
+                    + "cGsm varchar(10),"                    
                     + "cLastVisitDate date ,"
                     + "totalDept decimal(20,2) "
                     + ")");
@@ -201,6 +241,38 @@ public class DatabaseOperations {
             Logger.getLogger(DatabaseOperations.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+    }
+    
+    private static void createTransactionTable() {
+        try {
+            statement = conn.createStatement();
+            System.out.println("Creating TRANSACTION table");
+            statement.execute(""
+                    + "create table TRANSACTION ("
+                    + "t_id INTEGER primary key generated always as identity(start with 1, increment by 1),"
+                    + "c_id INTEGER not null, "
+                    + "paymentAmount decimal(20,2) not null, "
+                    + "saleAmount decimal(20,2) not null, "
+                    + "transDate date not null,"
+                    + "FOREIGN KEY (c_id)"
+                    + "REFERENCES CUSTOMER (c_id)"
+                    + ")");
+            System.out.println("Created TRANSACTION table");
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseOperations.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    private static void selectAllCustomers() throws SQLException{
+        rs = selectAllCustomers.executeQuery();
+        while(rs.next()){
+            System.out.print(rs.getInt(1));
+            System.out.print(rs.getString(2));
+            System.out.println(rs.getString(3));
+
+        }
     }
 
     private static void createSaleTable() {

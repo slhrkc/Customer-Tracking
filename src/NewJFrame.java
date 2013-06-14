@@ -2,8 +2,13 @@
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.text.MaskFormatter;
 
 /*
  * To change this template, choose Tools | Templates
@@ -46,14 +51,14 @@ public class NewJFrame extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         pCustomer = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblSurname = new javax.swing.JLabel();
+        lblName = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        lblGsm = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        lblPbx = new javax.swing.JLabel();
+        lblAddress = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
@@ -62,16 +67,16 @@ public class NewJFrame extends javax.swing.JFrame {
         jButton12 = new javax.swing.JButton();
         pNewCustomer = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
-        textFieldName = new javax.swing.JTextField();
+        tfGetName = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        textFieldSurname = new javax.swing.JTextField();
+        tfGetSurname = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        tfGetAddress = new javax.swing.JTextField();
+        tfGetPbx = new javax.swing.JTextField();
+        tfGetGsm = new javax.swing.JTextField();
+        btSaveCustomer = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         pSearchCustomer = new javax.swing.JPanel();
         jTextField7 = new javax.swing.JTextField();
@@ -145,11 +150,11 @@ public class NewJFrame extends javax.swing.JFrame {
         pCustomer.setMaximumSize(new java.awt.Dimension(800, 500));
         pCustomer.setMinimumSize(new java.awt.Dimension(800, 500));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setText("jLabel1");
+        lblSurname.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        lblSurname.setText("jLabel1");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setText("jLabel1");
+        lblName.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        lblName.setText("jLabel1");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Adres:");
@@ -157,17 +162,17 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("GSM:");
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel5.setText("jLabel5");
+        lblGsm.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblGsm.setText("jLabel5");
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel6.setText("Ev:");
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel7.setText("jLabel7");
+        lblPbx.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblPbx.setText("jLabel7");
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel8.setText("jLabel8");
+        lblAddress.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblAddress.setText("jLabel8");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -202,21 +207,21 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addGroup(pCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pCustomerLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addComponent(lblName)
                         .addGap(30, 30, 30)
-                        .addComponent(jLabel1))
+                        .addComponent(lblSurname))
                     .addGroup(pCustomerLayout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(1, 1, 1)
-                        .addComponent(jLabel8))
+                        .addComponent(lblAddress))
                     .addGroup(pCustomerLayout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(8, 8, 8)
-                        .addComponent(jLabel5))
+                        .addComponent(lblGsm))
                     .addGroup(pCustomerLayout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addGap(19, 19, 19)
-                        .addComponent(jLabel7))
+                        .addComponent(lblPbx))
                     .addComponent(jLabel9)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -234,25 +239,25 @@ public class NewJFrame extends javax.swing.JFrame {
             .addGroup(pCustomerLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(pCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
+                    .addComponent(lblName)
+                    .addComponent(lblSurname))
                 .addGap(13, 13, 13)
                 .addGroup(pCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel8))
+                    .addComponent(lblAddress))
                 .addGap(3, 3, 3)
                 .addGroup(pCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel5))
+                    .addComponent(lblGsm))
                 .addGap(3, 3, 3)
                 .addGroup(pCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
-                    .addComponent(jLabel7))
+                    .addComponent(lblPbx))
                 .addGap(23, 23, 23)
                 .addComponent(jLabel9)
                 .addGap(3, 3, 3)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 227, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 215, Short.MAX_VALUE)
                 .addGroup(pCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -268,17 +273,17 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel10.setText("Ad:");
 
-        textFieldName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        textFieldName.addActionListener(new java.awt.event.ActionListener() {
+        tfGetName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tfGetName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textFieldNameActionPerformed(evt);
+                tfGetNameActionPerformed(evt);
             }
         });
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel11.setText("Soyad:");
 
-        textFieldSurname.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tfGetSurname.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setText("Adres:");
@@ -289,19 +294,24 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel14.setText("GSM:");
 
-        jTextField4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        tfGetAddress.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tfGetAddress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                tfGetAddressActionPerformed(evt);
             }
         });
 
-        jTextField5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tfGetPbx.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        jTextField6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tfGetGsm.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton1.setText("Kaydet");
+        btSaveCustomer.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btSaveCustomer.setText("Kaydet");
+        btSaveCustomer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSaveCustomerActionPerformed(evt);
+            }
+        });
 
         jButton3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton3.setText("Geri");
@@ -316,36 +326,38 @@ public class NewJFrame extends javax.swing.JFrame {
         pNewCustomerLayout.setHorizontalGroup(
             pNewCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pNewCustomerLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
                 .addGroup(pNewCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pNewCustomerLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btSaveCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pNewCustomerLayout.createSequentialGroup()
-                        .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pNewCustomerLayout.createSequentialGroup()
-                        .addGroup(pNewCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(pNewCustomerLayout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addGap(22, 22, 22)
-                                .addComponent(textFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pNewCustomerLayout.createSequentialGroup()
-                                .addComponent(jLabel13)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(29, 29, 29)
                         .addGroup(pNewCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel14)
-                            .addComponent(jLabel11))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pNewCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textFieldSurname, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(218, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pNewCustomerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pNewCustomerLayout.createSequentialGroup()
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tfGetAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pNewCustomerLayout.createSequentialGroup()
+                                .addGroup(pNewCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(pNewCustomerLayout.createSequentialGroup()
+                                        .addComponent(jLabel10)
+                                        .addGap(22, 22, 22)
+                                        .addComponent(tfGetName, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(pNewCustomerLayout.createSequentialGroup()
+                                        .addComponent(jLabel13)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(tfGetPbx, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pNewCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel14)
+                                    .addComponent(jLabel11))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pNewCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(tfGetSurname, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tfGetGsm, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 208, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         pNewCustomerLayout.setVerticalGroup(
@@ -354,22 +366,22 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addGap(23, 23, 23)
                 .addGroup(pNewCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(textFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfGetName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11)
-                    .addComponent(textFieldSurname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfGetSurname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pNewCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfGetAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pNewCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
                     .addComponent(jLabel14)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfGetPbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfGetGsm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 373, Short.MAX_VALUE)
                 .addGroup(pNewCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btSaveCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -627,13 +639,13 @@ public class NewJFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void textFieldNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldNameActionPerformed
+    private void tfGetNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfGetNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_textFieldNameActionPerformed
+    }//GEN-LAST:event_tfGetNameActionPerformed
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void tfGetAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfGetAddressActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_tfGetAddressActionPerformed
 
     private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
         // TODO add your handling code here:
@@ -668,6 +680,29 @@ public class NewJFrame extends javax.swing.JFrame {
         CardLayout cl = (CardLayout)getContentPane().getLayout();
         cl.show(getContentPane(), "cardHome");
     }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void btSaveCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveCustomerActionPerformed
+        // TODO add your handling code here:
+        if(!tfGetName.getText().isEmpty() && !tfGetSurname.getText().isEmpty()){
+            try {
+                currentCustomer = new Customer();
+                currentCustomer.setCustomertoDatabase(tfGetName.getText(), tfGetSurname.getText(), tfGetAddress.getText(), tfGetPbx.getText(), tfGetGsm.getText(), null, null);
+
+                DatabaseOperations.saveCustomer(currentCustomer);
+                JOptionPane.showMessageDialog(this, "Müşteri Kaydedildi.");
+                showCustomerCard(currentCustomer);
+                
+
+
+
+                
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex);
+            }
+        }
+        else{
+        }
+    }//GEN-LAST:event_btSaveCustomerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -706,11 +741,11 @@ public class NewJFrame extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btSaveCustomer;
     private javax.swing.ButtonGroup buttonGroup1;
     private datechooser.beans.DateChooserCombo dateChooserCombo1;
     private datechooser.beans.DateChooserCombo dateChooserCombo2;
     private datechooser.beans.DateChooserCombo dateChooserCombo3;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
@@ -722,7 +757,6 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -732,13 +766,9 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -746,17 +776,48 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
+    private javax.swing.JLabel lblAddress;
+    private javax.swing.JLabel lblGsm;
+    private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblPbx;
+    private javax.swing.JLabel lblSurname;
     private javax.swing.JPanel pCustomer;
     private javax.swing.JPanel pHome;
     private javax.swing.JPanel pMissingCustomer;
     private javax.swing.JPanel pNewCustomer;
     private javax.swing.JPanel pReport;
     private javax.swing.JPanel pSearchCustomer;
-    private javax.swing.JTextField textFieldName;
-    private javax.swing.JTextField textFieldSurname;
+    private javax.swing.JTextField tfGetAddress;
+    private javax.swing.JTextField tfGetGsm;
+    private javax.swing.JTextField tfGetName;
+    private javax.swing.JTextField tfGetPbx;
+    private javax.swing.JTextField tfGetSurname;
     // End of variables declaration//GEN-END:variables
+
+protected MaskFormatter createFormatter(String s) {
+    MaskFormatter formatter = null;
+    try {
+        formatter = new MaskFormatter(s);
+    } catch (java.text.ParseException exc) {
+        System.err.println("formatter is bad: " + exc.getMessage());
+        System.exit(-1);
+    }
+    return formatter;
+}
+
+private  void showCustomerCard(Customer customer){
+    lblName.setText(customer.name);
+    lblSurname.setText(customer.lastName);
+    lblAddress.setText(customer.address);
+    lblPbx.setText(customer.pbx);
+    lblGsm.setText(customer.gsm);
+    
+    
+    CardLayout cl = (CardLayout)getContentPane().getLayout();
+    cl.show(getContentPane(), "cardCustomer");
+    
+    
+}
+ 
 }
