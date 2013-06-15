@@ -5,8 +5,11 @@ import java.awt.Toolkit;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
 
@@ -21,6 +24,8 @@ import javax.swing.text.MaskFormatter;
  */
 public class NewJFrame extends javax.swing.JFrame {
     private Customer currentCustomer = new Customer();
+    private PaymentDialog paymentDialog = new PaymentDialog(this,true);
+    private SaleDialog saleDialog = new SaleDialog(this,true);
     
 
     /**
@@ -192,9 +197,19 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton2.setText("Ödeme");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton11.setText("Satış");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
 
         jButton12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton12.setText("Geri");
@@ -345,7 +360,7 @@ public class NewJFrame extends javax.swing.JFrame {
                                         .addComponent(jLabel10)
                                         .addGap(22, 22, 22)
                                         .addComponent(tfGetName, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(pNewCustomerLayout.createSequentialGroup()
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pNewCustomerLayout.createSequentialGroup()
                                         .addComponent(jLabel13)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(tfGetPbx, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -688,7 +703,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 currentCustomer = new Customer();
                 currentCustomer.setCustomertoDatabase(tfGetName.getText(), tfGetSurname.getText(), tfGetAddress.getText(), tfGetPbx.getText(), tfGetGsm.getText(), null, null);
 
-                DatabaseOperations.saveCustomer(currentCustomer);
+                currentCustomer = DatabaseOperations.saveCustomer(currentCustomer);
                 JOptionPane.showMessageDialog(this, "Müşteri Kaydedildi.");
                 showCustomerCard(currentCustomer);
                 
@@ -703,6 +718,18 @@ public class NewJFrame extends javax.swing.JFrame {
         else{
         }
     }//GEN-LAST:event_btSaveCustomerActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        paymentDialog.setLocationRelativeTo(this);
+        paymentDialog.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        // TODO add your handling code here:
+        saleDialog.setLocationRelativeTo(this);
+        saleDialog.setVisible(true);
+    }//GEN-LAST:event_jButton11ActionPerformed
 
     /**
      * @param args the command line arguments

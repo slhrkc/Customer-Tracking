@@ -71,7 +71,7 @@ public class DatabaseOperations {
      * 
      * @param customer the customer to be saved into the database
      */
-    public static void saveCustomer(Customer customer) throws SQLException{
+    public static Customer saveCustomer(Customer customer) throws SQLException{
         if(insertCustomer==null){
             System.out.println("Haydaaaaaaaaa");
         }
@@ -87,9 +87,10 @@ public class DatabaseOperations {
         rs = insertCustomer.getGeneratedKeys();
         if(rs==null){System.out.println("Haydaaaaaaaa");}
         while(rs.next()){
-            System.out.println(rs.getInt(1));
+            customer.id(rs.getInt(1));
             
         }
+        return customer;
  
         //selectAllCustomers();
     }
