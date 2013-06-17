@@ -25,7 +25,7 @@ import java.util.logging.Logger;
  */
 public class DatabaseOperations {
     
-    private static final String DB_NAME = "owuhfd"; // the name of the database
+    private static final String DB_NAME = "makarna"; // the name of the database
             
     private static String framework = "embedded";
     private static String driver = "org.apache.derby.jdbc.EmbeddedDriver";
@@ -42,6 +42,9 @@ public class DatabaseOperations {
     private static PreparedStatement insertCustomer ;
     private static PreparedStatement insertPayment;
     private static PreparedStatement insertSale;
+    private static PreparedStatement insertTransaction;
+    private static PreparedStatement searchCustomers;
+
 
 
 
@@ -51,8 +54,11 @@ public class DatabaseOperations {
         Customer customer = new Customer();
         return customer;
     }
-    public static ResultSet searchCustomers(String s){
-        rs = null;
+    public static ResultSet searchCustomers(String s) throws SQLException{
+        System.out.println(s);
+        String searchText = "%%"+s+"%%";
+        searchCustomers.setString(1, searchText);
+        rs = searchCustomers.executeQuery();
         return rs;
     }
     
@@ -62,8 +68,7 @@ public class DatabaseOperations {
      * @param d The date from which customers didn't visit the store.
      * @return The resultSet that list the customers who didn't visit the store since d, and have a dept.
      */
-    public static ResultSet searchCustomers(Date d){
-        rs = null;
+    public static ResultSet searchCustomers(Date d) throws SQLException{
         return rs;
     }
     
@@ -79,9 +84,10 @@ public class DatabaseOperations {
 
         insertCustomer.setString(1, customer.name);
         insertCustomer.setString(2, customer.lastName);
-        insertCustomer.setString(3, customer.address);
-        insertCustomer.setString(4, customer.pbx);
-        insertCustomer.setString(5, customer.gsm);
+        insertCustomer.setString(3, customer.name + " "+ customer.lastName);
+        insertCustomer.setString(4, customer.address);
+        insertCustomer.setString(5, customer.pbx);
+        insertCustomer.setString(6, customer.gsm);
         
         insertCustomer.executeUpdate();
         rs = insertCustomer.getGeneratedKeys();
@@ -93,6 +99,24 @@ public class DatabaseOperations {
         return customer;
  
         //selectAllCustomers();
+    }
+    
+    public static void savePayment(Payment payment) throws SQLException{
+        if(payment == null){System.out.println("payment is null");}
+        if(payment.getCustomer() == null){System.out.println("customer is null");}
+        
+
+        insertTransaction.setInt(1, payment.getCustomer().getID());
+        insertTransaction.setBigDecimal(2, payment.getPaymentAmount());
+        insertTransaction.setBigDecimal(3, BigDecimal.ZERO);
+        insertTransaction.setDate(4, new java.sql.Date(payment.getDate().getTime()));
+    }
+    
+    public static void saveSale(Sale sale) throws SQLException{
+        insertTransaction.setInt(1, sale.getCustomer().getID());
+        insertTransaction.setBigDecimal(2, sale.getSaleAmount());
+        insertTransaction.setBigDecimal(3, sale.getFirstPaymentAmount());
+        insertTransaction.setDate(4, new java.sql.Date(sale.getDate().getTime()));        
     }
     
     public static void newSale(int c_id, BigDecimal saleAmount, BigDecimal paymentAmount, Date date  ){
@@ -150,12 +174,16 @@ public class DatabaseOperations {
         
         selectAllCustomers = conn.prepareStatement("select * from Customer");
         
+        searchCustomers = conn.prepareStatement("select c_id, cName, cSurname, cPbx  from Customer where UPPER(cSearchName) LIKE UPPER(?)");
+        
         insertCustomer  = conn.prepareStatement(
-                        "insert into Customer(cName, cSurname, cAddress, cPbx, cGsm) values (?, ?, ?, ?, ? )",Statement.RETURN_GENERATED_KEYS);
+                        "insert into Customer(cName, cSurname, cSearchName, cAddress, cPbx, cGsm) values (?, ?, ?, ?, ?, ? )",Statement.RETURN_GENERATED_KEYS);
         insertPayment   = conn.prepareStatement(
                         "insert into Payment(c_id, paymentAmount, paymentDate) values (?, ?, ?)");
         insertSale      = conn.prepareStatement(
                         "insert into Sale(c_id, saleAmount, firstPayAmount, saleDate) values (?, ?, ?, ?)");
+        insertTransaction = conn.prepareStatement(
+                        "insert into TRANS(c_id, paymentAmount, saleAmount, transDate) values (?, ?, ?, ?)");
     }
     
     
@@ -197,6 +225,7 @@ public class DatabaseOperations {
           System.out.println("Database created!!!");
 
           createCustomerTable();
+          createTransactionTable();
           createPaymentTable();
           createSaleTable();
     }
@@ -210,6 +239,7 @@ public class DatabaseOperations {
                     + "c_id INTEGER primary key generated always as identity(start with 1, increment by 1),"
                     + "cName varchar(24) not null, "
                     + "cSurname varchar(24) not null,"
+                    + "cSearchName varchar(48) not null,"
                     + "cAddress varchar(100), "
                     + "cPbx varchar(10),"
                     + "cGsm varchar(10),"                    
@@ -247,9 +277,9 @@ public class DatabaseOperations {
     private static void createTransactionTable() {
         try {
             statement = conn.createStatement();
-            System.out.println("Creating TRANSACTION table");
+            System.out.println("Creating trans table");
             statement.execute(""
-                    + "create table TRANSACTION ("
+                    + "create table TRANS ("
                     + "t_id INTEGER primary key generated always as identity(start with 1, increment by 1),"
                     + "c_id INTEGER not null, "
                     + "paymentAmount decimal(20,2) not null, "

@@ -2,6 +2,7 @@
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import static java.awt.image.ImageObserver.WIDTH;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
 /*
@@ -84,10 +86,10 @@ public class NewJFrame extends javax.swing.JFrame {
         btSaveCustomer = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         pSearchCustomer = new javax.swing.JPanel();
-        jTextField7 = new javax.swing.JTextField();
-        jTextField7.requestFocus();
+        tfGetSearchText = new javax.swing.JTextField();
+        tfGetSearchText.requestFocus();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tbCustomers = new javax.swing.JTable();
         jButton9 = new javax.swing.JButton();
         pReport = new javax.swing.JPanel();
         dateChooserCombo1 = new datechooser.beans.DateChooserCombo();
@@ -408,20 +410,28 @@ public class NewJFrame extends javax.swing.JFrame {
         pSearchCustomer.setPreferredSize(new java.awt.Dimension(800, 500));
         pSearchCustomer.setRequestFocusEnabled(false);
 
-        jTextField7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField7.setToolTipText("Müşteri Adını Buraya Yazınız");
-        jTextField7.setPreferredSize(new java.awt.Dimension(100, 23));
-        jTextField7.setRequestFocusEnabled(true);
-        jTextField7.addActionListener(new java.awt.event.ActionListener() {
+        tfGetSearchText.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tfGetSearchText.setToolTipText("Müşteri Adını Buraya Yazınız");
+        tfGetSearchText.setPreferredSize(new java.awt.Dimension(100, 23));
+        tfGetSearchText.setRequestFocusEnabled(true);
+        tfGetSearchText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField7ActionPerformed(evt);
+                tfGetSearchTextActionPerformed(evt);
+            }
+        });
+        tfGetSearchText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfGetSearchTextKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfGetSearchTextKeyTyped(evt);
             }
         });
 
-        jTable2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tbCustomers.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tbCustomers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null}
+
             },
             new String [] {
                 "No", "Ad", "Soyad", "Tel"
@@ -442,23 +452,21 @@ public class NewJFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable2.setRowHeight(20);
-        jTable2.getTableHeader().setReorderingAllowed(false);
-        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+        tbCustomers.setMinimumSize(new java.awt.Dimension(0, 0));
+        tbCustomers.setRowHeight(20);
+        tbCustomers.getTableHeader().setReorderingAllowed(false);
+        tbCustomers.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable2MouseClicked(evt);
+                tbCustomersMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(jTable2);
-        jTable2.getColumnModel().getColumn(0).setMinWidth(30);
-        jTable2.getColumnModel().getColumn(0).setMaxWidth(30);
-        jTable2.getColumnModel().getColumn(0).setHeaderValue("No");
-        jTable2.getColumnModel().getColumn(1).setResizable(false);
-        jTable2.getColumnModel().getColumn(1).setHeaderValue("Ad");
-        jTable2.getColumnModel().getColumn(2).setResizable(false);
-        jTable2.getColumnModel().getColumn(2).setHeaderValue("Soyad");
-        jTable2.getColumnModel().getColumn(3).setResizable(false);
-        jTable2.getColumnModel().getColumn(3).setHeaderValue("Tel");
+        jScrollPane2.setViewportView(tbCustomers);
+        tbCustomers.getColumnModel().getColumn(0).setMinWidth(25);
+        tbCustomers.getColumnModel().getColumn(0).setPreferredWidth(25);
+        tbCustomers.getColumnModel().getColumn(0).setMaxWidth(25);
+        tbCustomers.getColumnModel().getColumn(1).setResizable(false);
+        tbCustomers.getColumnModel().getColumn(2).setResizable(false);
+        tbCustomers.getColumnModel().getColumn(3).setResizable(false);
 
         jButton9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton9.setText("Geri");
@@ -473,13 +481,11 @@ public class NewJFrame extends javax.swing.JFrame {
         pSearchCustomerLayout.setHorizontalGroup(
             pSearchCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pSearchCustomerLayout.createSequentialGroup()
-                .addContainerGap(180, Short.MAX_VALUE)
-                .addGroup(pSearchCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pSearchCustomerLayout.createSequentialGroup()
-                        .addGap(112, 112, 112)
-                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(181, Short.MAX_VALUE))
+                .addContainerGap(163, Short.MAX_VALUE)
+                .addGroup(pSearchCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2)
+                    .addComponent(tfGetSearchText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(185, Short.MAX_VALUE))
             .addGroup(pSearchCustomerLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -488,11 +494,11 @@ public class NewJFrame extends javax.swing.JFrame {
         pSearchCustomerLayout.setVerticalGroup(
             pSearchCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pSearchCustomerLayout.createSequentialGroup()
-                .addContainerGap(78, Short.MAX_VALUE)
-                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(93, 93, 93)
+                .addContainerGap(61, Short.MAX_VALUE)
+                .addComponent(tfGetSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
                 .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -662,15 +668,16 @@ public class NewJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tfGetAddressActionPerformed
 
-    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
+    private void tfGetSearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfGetSearchTextActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField7ActionPerformed
+        
+    }//GEN-LAST:event_tfGetSearchTextActionPerformed
 
-    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+    private void tbCustomersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbCustomersMouseClicked
         // TODO add your handling code here:
         if(evt.getClickCount()==2)
-        System.out.println(jTable2.getSelectedRow());
-    }//GEN-LAST:event_jTable2MouseClicked
+        System.out.println(tbCustomers.getSelectedRow());
+    }//GEN-LAST:event_tbCustomersMouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
@@ -721,15 +728,55 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        paymentDialog.setCustomer(currentCustomer);
         paymentDialog.setLocationRelativeTo(this);
         paymentDialog.setVisible(true);
+        
+        showCustomerCard(currentCustomer);
+
+        
+        
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         // TODO add your handling code here:
+        saleDialog.setCustomer(currentCustomer);
         saleDialog.setLocationRelativeTo(this);
         saleDialog.setVisible(true);
     }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void tfGetSearchTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfGetSearchTextKeyTyped
+
+       
+    }//GEN-LAST:event_tfGetSearchTextKeyTyped
+
+    private void tfGetSearchTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfGetSearchTextKeyReleased
+        // TODO add your handling code here:
+        
+        
+            DefaultTableModel model = (DefaultTableModel)tbCustomers.getModel();
+            model.getDataVector().removeAllElements();
+            tbCustomers.addNotify();
+        try {
+            // TODO add your handling code here:
+            ResultSet matchedCustomers = DatabaseOperations.searchCustomers(tfGetSearchText.getText());
+             
+            //for(int i = 0; i < model.getRowCount(); i++) { System.out.println("Deleting "+ i); model.removeRow(i); }
+            
+            while(matchedCustomers.next()){
+                Object[] rowData = new Object[4];
+                rowData[0] = matchedCustomers.getInt(1);
+                rowData[1] = matchedCustomers.getString(2);
+                rowData[2] = matchedCustomers.getString(3);
+                rowData[3] = matchedCustomers.getString(4);
+                model.addRow(rowData);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_tfGetSearchTextKeyReleased
 
     /**
      * @param args the command line arguments
@@ -801,9 +848,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
-    private javax.swing.JTextField jTextField7;
     private javax.swing.JLabel lblAddress;
     private javax.swing.JLabel lblGsm;
     private javax.swing.JLabel lblName;
@@ -815,10 +860,12 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel pNewCustomer;
     private javax.swing.JPanel pReport;
     private javax.swing.JPanel pSearchCustomer;
+    private javax.swing.JTable tbCustomers;
     private javax.swing.JTextField tfGetAddress;
     private javax.swing.JTextField tfGetGsm;
     private javax.swing.JTextField tfGetName;
     private javax.swing.JTextField tfGetPbx;
+    private javax.swing.JTextField tfGetSearchText;
     private javax.swing.JTextField tfGetSurname;
     // End of variables declaration//GEN-END:variables
 

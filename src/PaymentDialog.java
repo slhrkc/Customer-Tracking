@@ -1,8 +1,12 @@
 
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.text.NumberFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /*
@@ -17,26 +21,58 @@ import javax.swing.JOptionPane;
 public class PaymentDialog extends javax.swing.JDialog {
     private boolean isPaymentConfirmed;
     private Payment payment;
+    private Customer customer;
+    
+    
+ 
+    
 
     /**
      * Creates new form NewJDialog
      */
+    
+    
+    /**
+     * Resets the previous submitted & changed values of components
+     * and refresh the JDialog for a new start.
+     */
+    @Override
+    public void setVisible(boolean isVisible){
+        if(isVisible == false){
+            super.setVisible(isVisible);
+            return;
+        }
+        
+        // Reset all the components
+        clear();
+        
+        super.setVisible(isVisible);
+        
+    }
+    
+    public void  clear() {
+        this.boxPaymentDate.setSelectedDate(Calendar.getInstance());
+        this.isPaymentConfirmed = false;
+        this.payment = null;
+        this.tfGetPaymentAmount.setText("");
+    }
+    public void setCustomer(Customer customer){
+        this.customer = customer;
+    }
     public boolean ispaymentConfirmed(){
         return isPaymentConfirmed;
     }
     
-    private void printRecipe(){
-        System.out.println("Paymen Amount : "+payment.getPaymentAmount());
-        System.out.println("Payment Date :"+payment.getDate());
     
-    }
+    
+
     
     private void confirmPayment(){
         this.isPaymentConfirmed = true;
     }
     
-    private void setPayment(Date d, BigDecimal paymentAmount){
-        this.payment = new Payment(d,paymentAmount);
+    private void setPayment(Date d, BigDecimal paymentAmount, Customer customer){
+        this.payment = new Payment(d,paymentAmount,customer);       
     }
     public PaymentDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -137,16 +173,31 @@ public class PaymentDialog extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        int getOK ;
         try{
+            
             BigDecimal money = new BigDecimal(tfGetPaymentAmount.getText());
             Date date = boxPaymentDate.getSelectedDate().getTime();
-            setPayment(date, money);
+            setPayment(date, money, customer);
             confirmPayment();
-            printRecipe();
+            
+            Object[] options = {"Onayla","Geri"};
+            getOK = JOptionPane.showOptionDialog(this, "Ödemeyi Onaylıyor musunuz?\n"+ payment.printRecipe(), "Ödeme Onay", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+            
+            if(getOK == 0){// Payment Confirmed by the user
+                DatabaseOperations.savePayment(payment);
+                JOptionPane.showMessageDialog(this, "Ödeme başarıyla gerçekleştirildi.");
+                this.dispose();               
+            }
+
+
+
             
 
         }catch(NumberFormatException ex){
             JOptionPane.showMessageDialog(this, "Ödeme tutarı hatalı!\nLütfen kontrol ediniz.");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "İşlem gerçekleştirelemedi!!");
         }
         
         
@@ -176,4 +227,6 @@ public class PaymentDialog extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField tfGetPaymentAmount;
     // End of variables declaration//GEN-END:variables
+
+
 }

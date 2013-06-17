@@ -10,15 +10,27 @@ import java.util.Date;
  *
  * @author salih
  */
-public class Transaction {
+public abstract class Transaction {
     private Date date;
+    private Customer  customer;
     
-    public Transaction(Date date){
+    public Transaction(Date date, Customer customer){
         this.date = date;
+        this.customer = customer;
     }
     
     public Date getDate(){
         return date;
     }
+    public Customer getCustomer(){
+        return customer;    
+    }
+    
+    
+    /**
+     * 
+     * @return String representation of the Transaction
+     */
+    public abstract String printRecipe();
     
 }

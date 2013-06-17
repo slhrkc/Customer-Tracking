@@ -60,7 +60,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="dateChooserCombo1" max="32767" attributes="0"/>
+                  <Component id="boxSaleDate" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="jButton4" min="-2" pref="125" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -73,8 +73,8 @@
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jTextField1" max="32767" attributes="0"/>
-                          <Component id="jTextField2" pref="89" max="32767" attributes="0"/>
+                          <Component id="tfGetSaleAmount" max="32767" attributes="0"/>
+                          <Component id="tfGetFirstPaymentAmount" pref="89" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -88,15 +88,15 @@
               <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tfGetSaleAmount" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextField2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tfGetFirstPaymentAmount" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="dateChooserCombo1" min="-2" max="-2" attributes="0"/>
+              <Component id="boxSaleDate" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" pref="98" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jButton4" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
@@ -126,8 +126,16 @@
         </Property>
         <Property name="text" type="java.lang.String" value="&#x130;ptal"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton5ActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="datechooser.beans.DateChooserCombo" name="dateChooserCombo1">
+    <Component class="datechooser.beans.DateChooserCombo" name="boxSaleDate">
+      <Properties>
+        <Property name="dch_combo_fieldFont" type="java.awt.Font" editor="datechooser.beans.editor.font.SimpleFontEditor">
+          <SerializedValue value="-84,-19,0,5,115,114,0,13,106,97,118,97,46,97,119,116,46,70,111,110,116,-59,-95,53,-26,-52,-34,86,115,3,0,6,73,0,25,102,111,110,116,83,101,114,105,97,108,105,122,101,100,68,97,116,97,86,101,114,115,105,111,110,70,0,9,112,111,105,110,116,83,105,122,101,73,0,4,115,105,122,101,73,0,5,115,116,121,108,101,76,0,20,102,82,101,113,117,101,115,116,101,100,65,116,116,114,105,98,117,116,101,115,116,0,21,76,106,97,118,97,47,117,116,105,108,47,72,97,115,104,116,97,98,108,101,59,76,0,4,110,97,109,101,116,0,18,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,120,112,0,0,0,1,65,96,0,0,0,0,0,14,0,0,0,0,112,116,0,6,84,97,104,111,109,97,120"/>
+        </Property>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
@@ -145,14 +153,14 @@
         <Property name="text" type="java.lang.String" value="Pe&#x15f;inat Tutar&#x131; :"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField1">
+    <Component class="javax.swing.JTextField" name="tfGetSaleAmount">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="14" style="0"/>
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField2">
+    <Component class="javax.swing.JTextField" name="tfGetFirstPaymentAmount">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="14" style="0"/>

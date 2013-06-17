@@ -28,6 +28,9 @@ public class Customer {
 
     
     
+    public int getID(){
+        return id;
+    }
     
 
     protected void setCustomertoDatabase(

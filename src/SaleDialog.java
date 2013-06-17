@@ -1,3 +1,10 @@
+
+import java.math.BigDecimal;
+import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.Date;
+import javax.swing.JOptionPane;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -8,6 +15,9 @@
  * @author salih
  */
 public class SaleDialog extends javax.swing.JDialog {
+    private boolean isSaleConfirmed;
+    private Sale sale;
+    private Customer customer;
 
     /**
      * Creates new form SaleDialog
@@ -30,11 +40,11 @@ public class SaleDialog extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        dateChooserCombo1 = new datechooser.beans.DateChooserCombo();
+        boxSaleDate = new datechooser.beans.DateChooserCombo();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        tfGetSaleAmount = new javax.swing.JTextField();
+        tfGetFirstPaymentAmount = new javax.swing.JTextField();
 
         jButton3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton3.setText("İptal");
@@ -68,6 +78,13 @@ public class SaleDialog extends javax.swing.JDialog {
 
         jButton5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton5.setText("İptal");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        boxSaleDate.setFieldFont(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 14));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Satış Tutarı :");
@@ -75,9 +92,9 @@ public class SaleDialog extends javax.swing.JDialog {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Peşinat Tutarı :");
 
-        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tfGetSaleAmount.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        jTextField2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tfGetFirstPaymentAmount.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -86,7 +103,7 @@ public class SaleDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(dateChooserCombo1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(boxSaleDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -97,8 +114,8 @@ public class SaleDialog extends javax.swing.JDialog {
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE))))
+                            .addComponent(tfGetSaleAmount)
+                            .addComponent(tfGetFirstPaymentAmount, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -107,13 +124,13 @@ public class SaleDialog extends javax.swing.JDialog {
                 .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfGetSaleAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfGetFirstPaymentAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dateChooserCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(boxSaleDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 98, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -124,6 +141,46 @@ public class SaleDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    @Override
+    public void setVisible(boolean isVisible){
+        if(isVisible == false){
+            super.setVisible(isVisible);
+            return;
+        }
+        
+        // Reset all the components
+        clear();
+        
+        super.setVisible(isVisible);
+        
+    }
+    private void clear() {
+        this.boxSaleDate.setSelectedDate(Calendar.getInstance());
+        this.isSaleConfirmed = false;
+        this.sale = null;
+        this.tfGetSaleAmount.setText("");
+        this.tfGetFirstPaymentAmount.setText("");        
+    }
+    
+    public void setCustomer(Customer customer){
+        this.customer = customer;
+    }
+    public boolean isSaleConfirmed(){
+        return isSaleConfirmed;
+    }
+    
+    
+    
+
+    
+    private void confirmSale(){
+        this.isSaleConfirmed = true;
+    }
+    
+    private void setSale(Date d, BigDecimal saleAmount, BigDecimal firstPaymentAmount, Customer customer){
+        this.sale = new Sale(d, saleAmount, firstPaymentAmount, customer);       
+    }
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         this.dispose();
@@ -134,9 +191,46 @@ public class SaleDialog extends javax.swing.JDialog {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    /**
+     * Method for the button OK
+     * @param evt 
+     */
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        int getOK ;
+        try{
+            
+            BigDecimal firstPayment = new BigDecimal(tfGetFirstPaymentAmount.getText());
+            BigDecimal saleAmount = new BigDecimal(tfGetSaleAmount.getText());
+            Date date = boxSaleDate.getSelectedDate().getTime();
+            setSale(date, saleAmount, firstPayment, customer);
+            confirmSale();
+            
+            Object[] options = {"Onayla","Geri"};
+            getOK = JOptionPane.showOptionDialog(this, "Satışı  Onaylıyor musunuz?\n"+ sale.printRecipe(), "Satış Onay", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+            
+            if(getOK == 0){// Payment Confirmed by the user
+                DatabaseOperations.saveSale(sale);
+                JOptionPane.showMessageDialog(this, "Satış işlemi  başarıyla gerçekleştirildi.");
+                this.dispose();               
+            }
+
+
+
+            
+
+        }catch(NumberFormatException ex){
+            JOptionPane.showMessageDialog(this, "Ödeme tutarı hatalı!\nLütfen kontrol ediniz.");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "İşlem gerçekleştirelemedi!!");
+        }
+        
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+                this.dispose();
+
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -180,14 +274,16 @@ public class SaleDialog extends javax.swing.JDialog {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private datechooser.beans.DateChooserCombo dateChooserCombo1;
+    private datechooser.beans.DateChooserCombo boxSaleDate;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField tfGetFirstPaymentAmount;
+    private javax.swing.JTextField tfGetSaleAmount;
     // End of variables declaration//GEN-END:variables
+
+ 
 }
