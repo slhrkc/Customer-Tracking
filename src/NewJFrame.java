@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
@@ -467,6 +468,7 @@ public class NewJFrame extends javax.swing.JFrame {
         tbCustomers.getColumnModel().getColumn(1).setResizable(false);
         tbCustomers.getColumnModel().getColumn(2).setResizable(false);
         tbCustomers.getColumnModel().getColumn(3).setResizable(false);
+        tbCustomers.setSelectionMode (ListSelectionModel.SINGLE_SELECTION);
 
         jButton9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton9.setText("Geri");
@@ -675,8 +677,19 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void tbCustomersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbCustomersMouseClicked
         // TODO add your handling code here:
-        if(evt.getClickCount()==2)
-        System.out.println(tbCustomers.getSelectedRow());
+        if(evt.getClickCount()==2){
+            System.out.println(tbCustomers.getSelectedRow());
+            int id = (int) tbCustomers.getValueAt(tbCustomers.getSelectedRow(), 0);
+            try {
+                currentCustomer = DatabaseOperations.getCustomer(id);
+                showCustomerCard(currentCustomer);
+
+            } catch (SQLException ex) {
+                Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }            
+            }
+
+        
     }//GEN-LAST:event_tbCustomersMouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

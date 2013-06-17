@@ -44,14 +44,29 @@ public class DatabaseOperations {
     private static PreparedStatement insertSale;
     private static PreparedStatement insertTransaction;
     private static PreparedStatement searchCustomers;
+    private static PreparedStatement getCustomer;
 
 
 
 
 
     
-    public static Customer getCustomer(int id){
+    public static Customer getCustomer(int id) throws SQLException{
+        System.out.println(id);
         Customer customer = new Customer();
+
+        getCustomer.setInt(1, id);
+        rs = getCustomer.executeQuery();
+        while(rs.next()){
+        customer.id(rs.getInt(1));
+        customer.name(rs.getString(2));
+        customer.lastName(rs.getString(3));
+        customer.address(rs.getString(5));
+        customer.pbx(rs.getString(6));
+        customer.gsm(rs.getString(7));
+        }
+        
+ 
         return customer;
     }
     public static ResultSet searchCustomers(String s) throws SQLException{
@@ -69,6 +84,7 @@ public class DatabaseOperations {
      * @return The resultSet that list the customers who didn't visit the store since d, and have a dept.
      */
     public static ResultSet searchCustomers(Date d) throws SQLException{
+        
         return rs;
     }
     
@@ -173,6 +189,8 @@ public class DatabaseOperations {
 //        INTO tableName(col1, col2) VALUES (?,?)
         
         selectAllCustomers = conn.prepareStatement("select * from Customer");
+        
+        getCustomer = conn.prepareStatement("select* from Customer where c_id = ?");
         
         searchCustomers = conn.prepareStatement("select c_id, cName, cSurname, cPbx  from Customer where UPPER(cSearchName) LIKE UPPER(?)");
         

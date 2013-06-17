@@ -643,7 +643,7 @@
                     <Column editable="false" title="Tel" type="java.lang.Object"/>
                   </Table>
                 </Property>
-                <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor" postCode="tbCustomers.setSelectionMode (ListSelectionModel.SINGLE_SELECTION);">
                   <TableColumnModel selectionModel="0">
                     <Column maxWidth="25" minWidth="25" prefWidth="25" resizable="true">
                       <Title/>

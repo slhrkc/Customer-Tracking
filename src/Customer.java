@@ -20,17 +20,20 @@ public class Customer {
     protected BigDecimal totalDept;
     
     
-    protected Customer id(int id){this.id = id; return this;}
-    protected Customer name(String name){this.name = name; return this;}
-    protected Customer lastName(String lastName){this.lastName = lastName; return this;}
-    protected Customer address(String address){this.address = address; return this;}
-    protected Customer pbx(String pbx){this.pbx = pbx; return this;}
+    protected Customer id(int id)                   {this.id = id; return this;}
+    protected Customer name(String name)            {this.name = name; return this;}
+    protected Customer lastName(String lastName)    {this.lastName = lastName; return this;}
+    protected Customer address(String address)      {this.address = address; return this;}
+    protected Customer pbx(String pbx)              {this.pbx = pbx; return this;}
+    protected Customer gsm(String gsm)              {this.gsm = gsm; return this;}
+
 
     
     
     public int getID(){
         return id;
     }
+    
     
 
     protected void setCustomertoDatabase(
