@@ -2,6 +2,7 @@
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ComponentAdapter;
 import static java.awt.image.ImageObserver.WIDTH;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
@@ -68,11 +69,14 @@ public class NewJFrame extends javax.swing.JFrame {
         lblPbx = new javax.swing.JLabel();
         lblAddress = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbCustomerTrans = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
         pNewCustomer = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         tfGetName = new javax.swing.JTextField();
@@ -88,7 +92,6 @@ public class NewJFrame extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         pSearchCustomer = new javax.swing.JPanel();
         tfGetSearchText = new javax.swing.JTextField();
-        tfGetSearchText.requestFocus();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbCustomers = new javax.swing.JTable();
         jButton9 = new javax.swing.JButton();
@@ -110,7 +113,6 @@ public class NewJFrame extends javax.swing.JFrame {
         setMaximumSize(new java.awt.Dimension(800, 500));
         setMinimumSize(new java.awt.Dimension(800, 500));
         setPreferredSize(new java.awt.Dimension(800, 500));
-        setResizable(false);
         getContentPane().setLayout(new java.awt.CardLayout());
 
         pHome.setMaximumSize(new java.awt.Dimension(800, 500));
@@ -157,6 +159,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
         pCustomer.setMaximumSize(new java.awt.Dimension(800, 500));
         pCustomer.setMinimumSize(new java.awt.Dimension(800, 500));
+        pCustomer.setPreferredSize(new java.awt.Dimension(800, 500));
 
         lblSurname.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblSurname.setText("jLabel1");
@@ -164,17 +167,17 @@ public class NewJFrame extends javax.swing.JFrame {
         lblName.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblName.setText("jLabel1");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("Adres:");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("GSM:");
 
         lblGsm.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblGsm.setText("jLabel5");
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel6.setText("Ev:");
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel6.setText("Ev Tel :");
 
         lblPbx.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblPbx.setText("jLabel7");
@@ -182,20 +185,39 @@ public class NewJFrame extends javax.swing.JFrame {
         lblAddress.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblAddress.setText("jLabel8");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbCustomerTrans.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tbCustomerTrans.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "No", "Tarih", "Satış Tutarı", "Ödeme Tutarı"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tbCustomerTrans);
+        tbCustomerTrans.getColumnModel().getColumn(0).setMinWidth(25);
+        tbCustomerTrans.getColumnModel().getColumn(0).setPreferredWidth(25);
+        tbCustomerTrans.getColumnModel().getColumn(0).setMaxWidth(25);
+        tbCustomerTrans.getColumnModel().getColumn(1).setPreferredWidth(75);
+        tbCustomerTrans.getColumnModel().getColumn(2).setResizable(false);
+        tbCustomerTrans.getColumnModel().getColumn(3).setResizable(false);
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setText("Son  İşlemler");
 
         jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -217,6 +239,17 @@ public class NewJFrame extends javax.swing.JFrame {
         jButton12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton12.setText("Geri");
 
+        jLabel19.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel19.setText("Kalan Borç    :");
+
+        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel20.setText("Kalan Borç:");
+
+        jLabel21.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel21.setText("TL");
+
         javax.swing.GroupLayout pCustomerLayout = new javax.swing.GroupLayout(pCustomer);
         pCustomer.setLayout(pCustomerLayout);
         pCustomerLayout.setHorizontalGroup(
@@ -226,7 +259,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addGroup(pCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pCustomerLayout.createSequentialGroup()
                         .addComponent(lblName)
-                        .addGap(30, 30, 30)
+                        .addGap(20, 20, 20)
                         .addComponent(lblSurname))
                     .addGroup(pCustomerLayout.createSequentialGroup()
                         .addComponent(jLabel3)
@@ -235,13 +268,20 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addGroup(pCustomerLayout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(8, 8, 8)
-                        .addComponent(lblGsm))
-                    .addGroup(pCustomerLayout.createSequentialGroup()
+                        .addComponent(lblGsm)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel6)
-                        .addGap(19, 19, 19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblPbx))
                     .addComponent(jLabel9)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pCustomerLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel20)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel21)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pCustomerLayout.createSequentialGroup()
                 .addContainerGap()
@@ -266,20 +306,27 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addGap(3, 3, 3)
                 .addGroup(pCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
-                    .addComponent(lblGsm))
-                .addGap(3, 3, 3)
-                .addGroup(pCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(lblPbx))
-                .addGap(23, 23, 23)
+                    .addGroup(pCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblGsm)
+                        .addComponent(jLabel6)
+                        .addComponent(lblPbx)))
+                .addGap(43, 43, 43)
                 .addComponent(jLabel9)
                 .addGap(3, 3, 3)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 215, Short.MAX_VALUE)
-                .addGroup(pCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pCustomerLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                        .addGroup(pCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(pCustomerLayout.createSequentialGroup()
+                        .addGroup(pCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel19)
+                            .addComponent(jLabel20)
+                            .addComponent(jLabel21))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -375,7 +422,7 @@ public class NewJFrame extends javax.swing.JFrame {
                                 .addGroup(pNewCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(tfGetSurname, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(tfGetGsm, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 208, Short.MAX_VALUE)))
+                        .addGap(0, 538, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         pNewCustomerLayout.setVerticalGroup(
@@ -405,11 +452,18 @@ public class NewJFrame extends javax.swing.JFrame {
         );
 
         getContentPane().add(pNewCustomer, "cardNewCustomer");
+        pNewCustomer.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(java.awt.event.ComponentEvent e)
+            {
+                tfGetName.requestFocusInWindow();
+            }
+        });
 
         pSearchCustomer.setMaximumSize(new java.awt.Dimension(800, 500));
         pSearchCustomer.setMinimumSize(new java.awt.Dimension(800, 500));
         pSearchCustomer.setPreferredSize(new java.awt.Dimension(800, 500));
-        pSearchCustomer.setRequestFocusEnabled(false);
+        pSearchCustomer.setRequestFocusEnabled(true);
 
         tfGetSearchText.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tfGetSearchText.setToolTipText("Müşteri Adını Buraya Yazınız");
@@ -483,11 +537,11 @@ public class NewJFrame extends javax.swing.JFrame {
         pSearchCustomerLayout.setHorizontalGroup(
             pSearchCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pSearchCustomerLayout.createSequentialGroup()
-                .addContainerGap(163, Short.MAX_VALUE)
+                .addContainerGap(336, Short.MAX_VALUE)
                 .addGroup(pSearchCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2)
                     .addComponent(tfGetSearchText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(185, Short.MAX_VALUE))
+                .addContainerGap(355, Short.MAX_VALUE))
             .addGroup(pSearchCustomerLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -496,7 +550,7 @@ public class NewJFrame extends javax.swing.JFrame {
         pSearchCustomerLayout.setVerticalGroup(
             pSearchCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pSearchCustomerLayout.createSequentialGroup()
-                .addContainerGap(61, Short.MAX_VALUE)
+                .addContainerGap(81, Short.MAX_VALUE)
                 .addComponent(tfGetSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -506,6 +560,14 @@ public class NewJFrame extends javax.swing.JFrame {
         );
 
         getContentPane().add(pSearchCustomer, "cardSearchCustomer");
+        pSearchCustomer.requestFocus();
+        pSearchCustomer.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(java.awt.event.ComponentEvent e)
+            {
+                tfGetSearchText.requestFocusInWindow();
+            }
+        });
 
         pReport.setFocusCycleRoot(true);
 
@@ -618,7 +680,7 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addGroup(pMissingCustomerLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(258, Short.MAX_VALUE))
+                .addContainerGap(588, Short.MAX_VALUE))
         );
         pMissingCustomerLayout.setVerticalGroup(
             pMissingCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -757,6 +819,10 @@ public class NewJFrame extends javax.swing.JFrame {
         saleDialog.setCustomer(currentCustomer);
         saleDialog.setLocationRelativeTo(this);
         saleDialog.setVisible(true);
+        
+        showCustomerCard(currentCustomer);
+
+        
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void tfGetSearchTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfGetSearchTextKeyTyped
@@ -772,10 +838,8 @@ public class NewJFrame extends javax.swing.JFrame {
             model.getDataVector().removeAllElements();
             tbCustomers.addNotify();
         try {
-            // TODO add your handling code here:
             ResultSet matchedCustomers = DatabaseOperations.searchCustomers(tfGetSearchText.getText());
              
-            //for(int i = 0; i < model.getRowCount(); i++) { System.out.println("Deleting "+ i); model.removeRow(i); }
             
             while(matchedCustomers.next()){
                 Object[] rowData = new Object[4];
@@ -853,6 +917,9 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
@@ -860,7 +927,6 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable3;
     private javax.swing.JLabel lblAddress;
     private javax.swing.JLabel lblGsm;
@@ -873,6 +939,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel pNewCustomer;
     private javax.swing.JPanel pReport;
     private javax.swing.JPanel pSearchCustomer;
+    private javax.swing.JTable tbCustomerTrans;
     private javax.swing.JTable tbCustomers;
     private javax.swing.JTextField tfGetAddress;
     private javax.swing.JTextField tfGetGsm;
@@ -894,6 +961,7 @@ protected MaskFormatter createFormatter(String s) {
 }
 
 private  void showCustomerCard(Customer customer){
+
     lblName.setText(customer.name);
     lblSurname.setText(customer.lastName);
     lblAddress.setText(customer.address);
@@ -901,9 +969,38 @@ private  void showCustomerCard(Customer customer){
     lblGsm.setText(customer.gsm);
     
     
-    CardLayout cl = (CardLayout)getContentPane().getLayout();
+
+        try {
+            ResultSet transactions = DatabaseOperations.getTransactions(customer);
+            
+            // transaction = t_id, paymentAmount, saleAMount, transDate
+        
+            DefaultTableModel model = (DefaultTableModel)tbCustomerTrans.getModel();
+            model.getDataVector().removeAllElements();
+            tbCustomerTrans.addNotify();
+       
+            
+             
+            
+            while(transactions.next()){
+                System.out.println("SuP");
+                Object[] rowData = new Object[4];
+                rowData[0] = transactions.getInt(1); // t_id
+                rowData[3] = transactions.getString(2); // t_paymentAmount
+                rowData[2] = transactions.getString(3); // t_sale
+                rowData[1] = transactions.getDate(4); // t_date
+                model.addRow(rowData);
+
+            }
+            
+            // Setting up the transactions table
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            CardLayout cl = (CardLayout)getContentPane().getLayout();
     cl.show(getContentPane(), "cardCustomer");
-    
+        
     
 }
  

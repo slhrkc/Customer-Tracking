@@ -1,5 +1,6 @@
 
 import java.math.BigDecimal;
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.util.Date;
 import java.sql.Connection;
@@ -45,6 +46,7 @@ public class DatabaseOperations {
     private static PreparedStatement insertTransaction;
     private static PreparedStatement searchCustomers;
     private static PreparedStatement getCustomer;
+    private static CallableStatement selectTransactions;
 
 
 
@@ -126,22 +128,20 @@ public class DatabaseOperations {
         insertTransaction.setBigDecimal(2, payment.getPaymentAmount());
         insertTransaction.setBigDecimal(3, BigDecimal.ZERO);
         insertTransaction.setDate(4, new java.sql.Date(payment.getDate().getTime()));
+        
+        insertTransaction.executeUpdate();
     }
     
     public static void saveSale(Sale sale) throws SQLException{
         insertTransaction.setInt(1, sale.getCustomer().getID());
-        insertTransaction.setBigDecimal(2, sale.getSaleAmount());
-        insertTransaction.setBigDecimal(3, sale.getFirstPaymentAmount());
-        insertTransaction.setDate(4, new java.sql.Date(sale.getDate().getTime()));        
+        insertTransaction.setBigDecimal(2, sale.getFirstPaymentAmount());
+        insertTransaction.setBigDecimal(3, sale.getSaleAmount());
+        insertTransaction.setDate(4, new java.sql.Date(sale.getDate().getTime()));
+        
+        insertTransaction.executeUpdate();
     }
     
-    public static void newSale(int c_id, BigDecimal saleAmount, BigDecimal paymentAmount, Date date  ){
-        
-    }
-    
-    public static void newPayment(int c_id,BigDecimal paymentAmount, Date date  ){
-        
-    }
+
     
     public static void initializeDB()  {
         
@@ -168,15 +168,8 @@ public class DatabaseOperations {
         
 
 
-            System.out.println("Connecting");
-            
-  
-           
-        
-        
-        
-        
-        
+            System.out.println("Connecting");      
+
         
         
 
@@ -187,6 +180,8 @@ public class DatabaseOperations {
      */
     public static void initializePreparedStatements() throws SQLException{
 //        INTO tableName(col1, col2) VALUES (?,?)
+        
+        selectTransactions = conn.prepareCall("select t_id, paymentAmount, saleAmount, transDate from trans where c_id = ?");
         
         selectAllCustomers = conn.prepareStatement("select * from Customer");
         
@@ -349,6 +344,11 @@ public class DatabaseOperations {
             conn = DriverManager.getConnection(protocol + DB_NAME
                       + ";create=false");
         }
+
+    public static ResultSet getTransactions(Customer customer) throws SQLException {
+        selectTransactions.setInt(1, customer.getID());
+        return selectTransactions.executeQuery();
+    }
     
     
 }
