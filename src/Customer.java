@@ -17,7 +17,7 @@ public class Customer {
     protected String pbx;
     protected String gsm;
     protected Date lastVisitDate;
-    protected BigDecimal totalDept;
+    protected BigDecimal totalDebt;
     
     
     protected Customer id(int id)                   {this.id = id; return this;}
@@ -50,7 +50,7 @@ public class Customer {
         this.pbx = pbx;
         this.gsm = gsm;
         this.lastVisitDate = lastVisitDate;
-        this.totalDept = totalDept;
+        this.totalDebt = totalDept;
     }
     
     protected void setCustomerFromDatabase(
@@ -69,7 +69,7 @@ public class Customer {
         this.pbx = pbx;
         this.gsm = gsm;
         this.lastVisitDate = lastVisitDate;
-        this.totalDept = totalDept;
+        this.totalDebt = totalDept;
     }    
  
 

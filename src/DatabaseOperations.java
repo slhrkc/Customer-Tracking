@@ -47,11 +47,26 @@ public class DatabaseOperations {
     private static PreparedStatement searchCustomers;
     private static PreparedStatement getCustomer;
     private static CallableStatement selectTransactions;
+    private static CallableStatement selectTotalDebt;
 
 
 
 
 
+    public static Customer getTotalDebt(Customer customer) throws SQLException{
+        selectTotalDebt.setInt(1, customer.getID());
+        ResultSet temp = selectTotalDebt.executeQuery();
+        
+        // if resultSet is empty, it means there is no transactions for this  customer
+        // Which means totalDebt is ZERO
+        
+            while(temp.next()){ customer.totalDebt = temp.getBigDecimal(1);}
+            
+            if(customer.totalDebt == null) {customer.totalDebt = BigDecimal.ZERO;}
+            
+        
+        return customer;
+    }
     
     public static Customer getCustomer(int id) throws SQLException{
         System.out.println(id);
@@ -180,6 +195,8 @@ public class DatabaseOperations {
      */
     public static void initializePreparedStatements() throws SQLException{
 //        INTO tableName(col1, col2) VALUES (?,?)
+        
+        selectTotalDebt = conn.prepareCall("SELECT SUM (saleAmount - paymentAmount) as totalDebt FROM trans where c_id = ?");
         
         selectTransactions = conn.prepareCall("select t_id, paymentAmount, saleAmount, transDate from trans where c_id = ?");
         
