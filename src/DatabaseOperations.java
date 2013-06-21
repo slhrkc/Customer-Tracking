@@ -48,10 +48,48 @@ public class DatabaseOperations {
     private static PreparedStatement getCustomer;
     private static CallableStatement selectTransactions;
     private static CallableStatement selectTotalDebt;
+    private static PreparedStatement selectTotalSale;
+    private static PreparedStatement selectTotalPayment;
 
 
 
 
+    /**
+     * 
+     * @param startingDate 
+     * @param finishingDate
+     * @return The total sale amount between selected two days.
+     */
+    public static BigDecimal getTotalSale(Date startingDate, Date finishingDate) throws SQLException{
+        selectTotalSale.setDate(1, new java.sql.Date(startingDate.getTime()));
+        selectTotalSale.setDate(2, new java.sql.Date(finishingDate.getTime()));
+        rs = selectTotalSale.executeQuery();
+        BigDecimal totalSale = null ;
+  
+        while(rs.next()){totalSale = rs.getBigDecimal(1);}
+        
+        if(totalSale == null) { return BigDecimal.ZERO;}
+        
+        return totalSale;
+        
+
+        
+
+    }
+    
+    public static BigDecimal getTotalPayment(Date startingDate, Date finishingDate) throws SQLException{
+        selectTotalPayment.setDate(1, new java.sql.Date(startingDate.getTime()));
+        selectTotalPayment.setDate(2, new java.sql.Date(finishingDate.getTime()));
+        rs = selectTotalPayment.executeQuery();
+        BigDecimal totalPayment = null ;
+  
+        while(rs.next()){totalPayment = rs.getBigDecimal(1);}
+        
+        if(totalPayment == null) { return BigDecimal.ZERO;}
+        
+        return totalPayment;
+                
+    }
 
     public static Customer getTotalDebt(Customer customer) throws SQLException{
         selectTotalDebt.setInt(1, customer.getID());
@@ -195,6 +233,10 @@ public class DatabaseOperations {
      */
     public static void initializePreparedStatements() throws SQLException{
 //        INTO tableName(col1, col2) VALUES (?,?)
+        
+        selectTotalPayment = conn.prepareStatement("select sum (paymentAmount) as totalPayment from trans where transDate >= ? AND transDate <= ?");
+        
+        selectTotalSale = conn.prepareStatement("select sum (saleAmount) as totalSale from trans where transDate >= ? AND transDate <= ?");
         
         selectTotalDebt = conn.prepareCall("SELECT SUM (saleAmount - paymentAmount) as totalDebt FROM trans where c_id = ?");
         

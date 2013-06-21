@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
@@ -96,13 +97,18 @@ public class NewJFrame extends javax.swing.JFrame {
         tbCustomers = new javax.swing.JTable();
         jButton9 = new javax.swing.JButton();
         pReport = new javax.swing.JPanel();
-        dateChooserCombo1 = new datechooser.beans.DateChooserCombo();
-        dateChooserCombo2 = new datechooser.beans.DateChooserCombo();
-        jLabel15 = new javax.swing.JLabel();
+        boxReportFirstDate = new datechooser.beans.DateChooserCombo();
+        boxReportSecondDate = new datechooser.beans.DateChooserCombo();
+        lblTotalSale = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
+        lblTotalPayment = new javax.swing.JLabel();
         jButton8 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
         pMissingCustomer = new javax.swing.JPanel();
         dateChooserCombo3 = new datechooser.beans.DateChooserCombo();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -110,6 +116,7 @@ public class NewJFrame extends javax.swing.JFrame {
         jButton10 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Müşteri Takip Programı");
         setMaximumSize(new java.awt.Dimension(800, 500));
         setMinimumSize(new java.awt.Dimension(800, 500));
         setPreferredSize(new java.awt.Dimension(800, 500));
@@ -316,8 +323,8 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addGap(3, 3, 3)
                 .addGroup(pCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pCustomerLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                         .addGroup(pCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -572,8 +579,12 @@ public class NewJFrame extends javax.swing.JFrame {
 
         pReport.setFocusCycleRoot(true);
 
-        jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel15.setText("Toplam Satış :");
+        boxReportFirstDate.setFieldFont(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 14));
+
+        boxReportSecondDate.setFieldFont(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 14));
+
+        lblTotalSale.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblTotalSale.setText("Toplam Satış :");
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel16.setText("Gelen Nakit :");
@@ -581,8 +592,8 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel17.setText("Toplam Satış :");
 
-        jLabel18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel18.setText("Gelen Nakit :");
+        lblTotalPayment.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblTotalPayment.setText("Gelen Nakit :");
 
         jButton8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton8.setText("Geri");
@@ -592,6 +603,27 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setText("Başlangıç Tarihini Seçin");
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setText("Bitiş Tarihini Seçin");
+
+        jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton1.setText("Raporları Göster");
+        jButton1.setPreferredSize(new java.awt.Dimension(125, 32));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel20.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel20.setText("TL");
+
+        jLabel22.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel22.setText("TL");
+
         javax.swing.GroupLayout pReportLayout = new javax.swing.GroupLayout(pReport);
         pReport.setLayout(pReportLayout);
         pReportLayout.setHorizontalGroup(
@@ -599,40 +631,60 @@ public class NewJFrame extends javax.swing.JFrame {
             .addGroup(pReportLayout.createSequentialGroup()
                 .addGroup(pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pReportLayout.createSequentialGroup()
-                        .addGap(108, 108, 108)
-                        .addComponent(dateChooserCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(228, 228, 228)
-                        .addComponent(dateChooserCombo2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pReportLayout.createSequentialGroup()
-                        .addGap(302, 302, 302)
-                        .addComponent(jLabel17)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel15))
-                    .addGroup(pReportLayout.createSequentialGroup()
-                        .addGap(310, 310, 310)
-                        .addComponent(jLabel16)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel18))
-                    .addGroup(pReportLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(147, 147, 147))
+                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pReportLayout.createSequentialGroup()
+                        .addGroup(pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pReportLayout.createSequentialGroup()
+                                .addGap(302, 302, 302)
+                                .addComponent(jLabel17)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblTotalSale))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pReportLayout.createSequentialGroup()
+                                .addGap(310, 310, 310)
+                                .addComponent(jLabel16)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblTotalPayment)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel20)
+                            .addComponent(jLabel22)))
+                    .addGroup(pReportLayout.createSequentialGroup()
+                        .addGap(108, 108, 108)
+                        .addGroup(pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(boxReportFirstDate, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addGap(95, 95, 95)
+                        .addGroup(pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addGroup(pReportLayout.createSequentialGroup()
+                                .addComponent(boxReportSecondDate, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(67, 67, 67)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(81, Short.MAX_VALUE))
         );
         pReportLayout.setVerticalGroup(
             pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pReportLayout.createSequentialGroup()
-                .addGap(74, 74, 74)
-                .addGroup(pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dateChooserCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dateChooserCombo2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(54, 54, 54)
+                .addGroup(pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(boxReportFirstDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(boxReportSecondDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(147, 147, 147)
                 .addGroup(pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel15))
+                    .addComponent(lblTotalSale)
+                    .addComponent(jLabel20))
                 .addGroup(pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 168, Short.MAX_VALUE)
+                    .addComponent(lblTotalPayment, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 162, Short.MAX_VALUE)
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -856,6 +908,22 @@ public class NewJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tfGetSearchTextKeyReleased
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            // TODO add your handling code here:
+            Date startDate = boxReportFirstDate.getSelectedDate().getTime();
+            Date finishDate = boxReportSecondDate.getSelectedDate().getTime();
+            
+            BigDecimal sale = DatabaseOperations.getTotalSale(startDate, finishDate);
+            lblTotalSale.setText(sale.toString());
+            
+            BigDecimal totalPayment = DatabaseOperations.getTotalPayment(startDate, finishDate);
+            lblTotalPayment.setText(totalPayment.toString());
+        } catch (SQLException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -893,11 +961,12 @@ public class NewJFrame extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private datechooser.beans.DateChooserCombo boxReportFirstDate;
+    private datechooser.beans.DateChooserCombo boxReportSecondDate;
     private javax.swing.JButton btSaveCustomer;
     private javax.swing.ButtonGroup buttonGroup1;
-    private datechooser.beans.DateChooserCombo dateChooserCombo1;
-    private datechooser.beans.DateChooserCombo dateChooserCombo2;
     private datechooser.beans.DateChooserCombo dateChooserCombo3;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
@@ -909,17 +978,19 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
@@ -934,6 +1005,8 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblPbx;
     private javax.swing.JLabel lblSurname;
     private javax.swing.JLabel lblTotalDebt;
+    private javax.swing.JLabel lblTotalPayment;
+    private javax.swing.JLabel lblTotalSale;
     private javax.swing.JPanel pCustomer;
     private javax.swing.JPanel pHome;
     private javax.swing.JPanel pMissingCustomer;
