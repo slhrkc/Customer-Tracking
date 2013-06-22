@@ -240,7 +240,7 @@ public class DatabaseOperations {
         
         selectTotalDebt = conn.prepareCall("SELECT SUM (saleAmount - paymentAmount) as totalDebt FROM trans where c_id = ?");
         
-        selectTransactions = conn.prepareCall("select t_id, paymentAmount, saleAmount, transDate from trans where c_id = ?");
+        selectTransactions = conn.prepareCall("select t_id, transDate, saleAmount, paymentAmount from trans where c_id = ?");
         
         selectAllCustomers = conn.prepareStatement("select * from Customer");
         
@@ -404,6 +404,16 @@ public class DatabaseOperations {
                       + ";create=false");
         }
 
+    /**
+     * 
+     * @param customer
+     * @return The transactions of the customer. The columns are in following order.<br>
+     * id<br>
+     * Date<br>
+     * SaleAmount<br>
+     * PaymentAmount<br>
+     * @throws SQLException 
+     */
     public static ResultSet getTransactions(Customer customer) throws SQLException {
         selectTransactions.setInt(1, customer.getID());
         return selectTransactions.executeQuery();

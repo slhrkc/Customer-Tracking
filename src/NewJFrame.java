@@ -884,28 +884,19 @@ public class NewJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_tfGetSearchTextKeyTyped
 
     private void tfGetSearchTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfGetSearchTextKeyReleased
-        // TODO add your handling code here:
-        
-        
-            DefaultTableModel model = (DefaultTableModel)tbCustomers.getModel();
-            model.getDataVector().removeAllElements();
-            tbCustomers.addNotify();
         try {
-            ResultSet matchedCustomers = DatabaseOperations.searchCustomers(tfGetSearchText.getText());
-             
-            
-            while(matchedCustomers.next()){
-                Object[] rowData = new Object[4];
-                rowData[0] = matchedCustomers.getInt(1);
-                rowData[1] = matchedCustomers.getString(2);
-                rowData[2] = matchedCustomers.getString(3);
-                rowData[3] = matchedCustomers.getString(4);
-                model.addRow(rowData);
-
-            }
+            // TODO add your handling code here:
+                ResultSet matchedCustomers = DatabaseOperations.searchCustomers(tfGetSearchText.getText());
+                tbCustomers = UIOperations.fillTable(tbCustomers, matchedCustomers);
+                
         } catch (SQLException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        JOptionPane.showMessageDialog(this, "Veritabanından veri okunamadı!!");
         }
+
+        
+        
+        
+          
     }//GEN-LAST:event_tfGetSearchTextKeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -1044,27 +1035,9 @@ private  void showCustomerCard(Customer customer){
             // Get all the transactions of the customer
             ResultSet transactions = DatabaseOperations.getTransactions(customer);
             
-            // transaction = t_id, paymentAmount, saleAMount, transDate
-        
-            DefaultTableModel model = (DefaultTableModel)tbCustomerTrans.getModel();
-            model.getDataVector().removeAllElements();
+           // Setting up the transactions table
+            tbCustomerTrans = UIOperations.fillTable(tbCustomerTrans, transactions);
             
-            // to refresh the table
-            tbCustomerTrans.addNotify(); 
-       
-            
-            while(transactions.next()){
-                System.out.println("SuP");
-                Object[] rowData = new Object[4];
-                rowData[0] = transactions.getInt(1); // t_id
-                rowData[3] = transactions.getString(2); // t_paymentAmount
-                rowData[2] = transactions.getString(3); // t_sale
-                rowData[1] = transactions.getDate(4); // t_date
-                model.addRow(rowData);
-
-            }
-            
-            // Setting up the transactions table
             
         } catch (SQLException ex) {
             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
