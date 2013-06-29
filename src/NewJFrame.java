@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -110,10 +111,11 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel20 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         pMissingCustomer = new javax.swing.JPanel();
-        dateChooserCombo3 = new datechooser.beans.DateChooserCombo();
+        boxMissingCustomerDate = new datechooser.beans.DateChooserCombo();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tbMissingCustomers = new javax.swing.JTable();
         jButton10 = new javax.swing.JButton();
+        jButton13 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Müşteri Takip Programı");
@@ -545,11 +547,11 @@ public class NewJFrame extends javax.swing.JFrame {
         pSearchCustomerLayout.setHorizontalGroup(
             pSearchCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pSearchCustomerLayout.createSequentialGroup()
-                .addContainerGap(171, Short.MAX_VALUE)
+                .addContainerGap(172, Short.MAX_VALUE)
                 .addGroup(pSearchCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2)
                     .addComponent(tfGetSearchText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(190, Short.MAX_VALUE))
+                .addContainerGap(189, Short.MAX_VALUE))
             .addGroup(pSearchCustomerLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -695,26 +697,63 @@ public class NewJFrame extends javax.swing.JFrame {
         pMissingCustomer.setMinimumSize(new java.awt.Dimension(800, 500));
         pMissingCustomer.setPreferredSize(new java.awt.Dimension(800, 500));
 
-        dateChooserCombo3.setFieldFont(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 14));
+        boxMissingCustomerDate.setFieldFont(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 14));
+        boxMissingCustomerDate.setLocale(new java.util.Locale("tr", "TR", ""));
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tbMissingCustomers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3"
+                "No", "Toplam Borç", "Son Ziyaret", "Ad", "Soyad", "Tel", "GSM"
             }
-        ));
-        jScrollPane3.setViewportView(jTable3);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbMissingCustomers.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(tbMissingCustomers);
+        tbMissingCustomers.getColumnModel().getColumn(0).setMinWidth(25);
+        tbMissingCustomers.getColumnModel().getColumn(0).setPreferredWidth(25);
+        tbMissingCustomers.getColumnModel().getColumn(0).setMaxWidth(25);
+        tbMissingCustomers.getColumnModel().getColumn(1).setResizable(false);
+        tbMissingCustomers.getColumnModel().getColumn(2).setResizable(false);
+        tbMissingCustomers.getColumnModel().getColumn(3).setResizable(false);
+        tbMissingCustomers.getColumnModel().getColumn(4).setResizable(false);
+        tbMissingCustomers.getColumnModel().getColumn(5).setResizable(false);
+        tbMissingCustomers.getColumnModel().getColumn(6).setResizable(false);
 
         jButton10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton10.setText("Geri");
         jButton10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton10ActionPerformed(evt);
+            }
+        });
+
+        jButton13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton13.setText("Listele");
+        jButton13.setMaximumSize(new java.awt.Dimension(120, 32));
+        jButton13.setMinimumSize(new java.awt.Dimension(120, 32));
+        jButton13.setPreferredSize(new java.awt.Dimension(120, 32));
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
             }
         });
 
@@ -725,22 +764,26 @@ public class NewJFrame extends javax.swing.JFrame {
             .addGroup(pMissingCustomerLayout.createSequentialGroup()
                 .addGroup(pMissingCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pMissingCustomerLayout.createSequentialGroup()
-                        .addGap(166, 166, 166)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pMissingCustomerLayout.createSequentialGroup()
-                        .addGap(254, 254, 254)
-                        .addComponent(dateChooserCombo3, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pMissingCustomerLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(258, Short.MAX_VALUE))
+                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pMissingCustomerLayout.createSequentialGroup()
+                        .addGap(166, 166, 166)
+                        .addGroup(pMissingCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pMissingCustomerLayout.createSequentialGroup()
+                                .addComponent(boxMissingCustomerDate, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(120, 120, 120)
+                                .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(194, Short.MAX_VALUE))
         );
         pMissingCustomerLayout.setVerticalGroup(
             pMissingCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pMissingCustomerLayout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(dateChooserCombo3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addContainerGap(45, Short.MAX_VALUE)
+                .addGroup(pMissingCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(boxMissingCustomerDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(75, 75, 75)
                 .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -836,7 +879,7 @@ public class NewJFrame extends javax.swing.JFrame {
         if(!tfGetName.getText().isEmpty() && !tfGetSurname.getText().isEmpty()){
             try {
                 currentCustomer = new Customer();
-                currentCustomer.setCustomertoDatabase(tfGetName.getText(), tfGetSurname.getText(), tfGetAddress.getText(), tfGetPbx.getText(), tfGetGsm.getText(), null, null);
+                currentCustomer.setCustomertoDatabase(tfGetName.getText(), tfGetSurname.getText(), tfGetAddress.getText(), tfGetPbx.getText(), tfGetGsm.getText(), Calendar.getInstance().getTime(), null);
 
                 currentCustomer = DatabaseOperations.saveCustomer(currentCustomer);
                 JOptionPane.showMessageDialog(this, "Müşteri Kaydedildi.");
@@ -915,6 +958,17 @@ public class NewJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        // TODO add your handling code here:
+        Date d = boxMissingCustomerDate.getSelectedDate().getTime();
+        try {
+            ResultSet matchedCustomers = DatabaseOperations.getMissingCustomers(d);
+            tbMissingCustomers = UIOperations.fillTable(tbMissingCustomers, matchedCustomers);
+        } catch (SQLException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton13ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -952,15 +1006,16 @@ public class NewJFrame extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private datechooser.beans.DateChooserCombo boxMissingCustomerDate;
     private datechooser.beans.DateChooserCombo boxReportFirstDate;
     private datechooser.beans.DateChooserCombo boxReportSecondDate;
     private javax.swing.JButton btSaveCustomer;
     private javax.swing.ButtonGroup buttonGroup1;
-    private datechooser.beans.DateChooserCombo dateChooserCombo3;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -989,7 +1044,6 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable3;
     private javax.swing.JLabel lblAddress;
     private javax.swing.JLabel lblGsm;
     private javax.swing.JLabel lblName;
@@ -1006,6 +1060,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel pSearchCustomer;
     private javax.swing.JTable tbCustomerTrans;
     private javax.swing.JTable tbCustomers;
+    private javax.swing.JTable tbMissingCustomers;
     private javax.swing.JTextField tfGetAddress;
     private javax.swing.JTextField tfGetGsm;
     private javax.swing.JTextField tfGetName;

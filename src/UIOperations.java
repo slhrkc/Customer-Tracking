@@ -30,20 +30,23 @@ public class UIOperations {
      */
     public static JTable fillTable(JTable table, ResultSet rs) throws SQLException{
         
+        
+        
             DefaultTableModel model = (DefaultTableModel)table.getModel();
             model.getDataVector().removeAllElements();
             table.addNotify();
             
+            // Learn how many columns the table has
             int columnCount = table.getColumnCount();
 
              
-            
+            // Fill the table with rows from the ResultSet
             while(rs.next()){
-                Object[] rowData = new Object[4];
-                rowData[0] = rs.getObject(1);
-                rowData[1] = rs.getObject(2);
-                rowData[2] = rs.getObject(3);
-                rowData[3] = rs.getObject(4);
+                Object[] rowData = new Object[columnCount];
+                
+                for(int i = 0; i < columnCount; i++) {
+                    rowData[i] = rs.getObject(i+1);
+                }
                 model.addRow(rowData);
 
             }

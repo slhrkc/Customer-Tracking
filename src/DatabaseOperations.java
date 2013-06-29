@@ -15,10 +15,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
  *
@@ -50,6 +47,7 @@ public class DatabaseOperations {
     private static CallableStatement selectTotalDebt;
     private static PreparedStatement selectTotalSale;
     private static PreparedStatement selectTotalPayment;
+    private static PreparedStatement selectMissingCustomers;
 
 
 
@@ -138,8 +136,9 @@ public class DatabaseOperations {
      * @param d The date from which customers didn't visit the store.
      * @return The resultSet that list the customers who didn't visit the store since d, and have a dept.
      */
-    public static ResultSet searchCustomers(Date d) throws SQLException{
-        
+    public static ResultSet getMissingCustomers(Date d) throws SQLException{
+        selectMissingCustomers.setDate(1, new java.sql.Date(d.getTime()));
+        rs = selectMissingCustomers.executeQuery();
         return rs;
     }
     
@@ -159,6 +158,9 @@ public class DatabaseOperations {
         insertCustomer.setString(4, customer.address);
         insertCustomer.setString(5, customer.pbx);
         insertCustomer.setString(6, customer.gsm);
+        //        insertTransaction.setDate(4, new java.sql.Date(payment.getDate().getTime()));
+        insertCustomer.setDate(7, new java.sql.Date(customer.lastVisitDate.getTime()));
+
         
         insertCustomer.executeUpdate();
         rs = insertCustomer.getGeneratedKeys();
@@ -232,7 +234,25 @@ public class DatabaseOperations {
      *
      */
     public static void initializePreparedStatements() throws SQLException{
-//        INTO tableName(col1, col2) VALUES (?,?)
+                
+        selectMissingCustomers = conn.prepareStatement(""
+                + "select "
+                + "Customer.c_id, "
+                + "totalDebt, "
+                + "cLastVisitDate, "
+                + "cName, "
+                + "cSurName, "
+                + "cPbx, "
+                + "cGsm "
+                + "from Customer "
+                + "JOIN "
+                + "(select c_id, SUM(saleAmount - paymentAmount) as totalDebt "
+                + "from Trans "
+                + "group by c_id) Trans "
+                + "on Customer.c_id = Trans.c_id "
+                + "Where totalDebt > 0 AND cLastVisitDate < ? ");
+        
+
         
         selectTotalPayment = conn.prepareStatement("select sum (paymentAmount) as totalPayment from trans where transDate >= ? AND transDate <= ?");
         
@@ -249,7 +269,7 @@ public class DatabaseOperations {
         searchCustomers = conn.prepareStatement("select c_id, cName, cSurname, cPbx  from Customer where UPPER(cSearchName) LIKE UPPER(?)");
         
         insertCustomer  = conn.prepareStatement(
-                        "insert into Customer(cName, cSurname, cSearchName, cAddress, cPbx, cGsm) values (?, ?, ?, ?, ?, ? )",Statement.RETURN_GENERATED_KEYS);
+                        "insert into Customer(cName, cSurname, cSearchName, cAddress, cPbx, cGsm, cLastVisitDate) values (?, ?, ?, ?, ?, ? ,?)",Statement.RETURN_GENERATED_KEYS);
         insertPayment   = conn.prepareStatement(
                         "insert into Payment(c_id, paymentAmount, paymentDate) values (?, ?, ?)");
         insertSale      = conn.prepareStatement(
