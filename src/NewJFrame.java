@@ -76,9 +76,7 @@ public class NewJFrame extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
-        jLabel19 = new javax.swing.JLabel();
         lblTotalDebt = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
         pNewCustomer = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         tfGetName = new javax.swing.JTextField();
@@ -108,8 +106,8 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jLabel20 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        lblGeneralDebt = new javax.swing.JLabel();
         pMissingCustomer = new javax.swing.JPanel();
         boxMissingCustomerDate = new datechooser.beans.DateChooserCombo();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -249,16 +247,10 @@ public class NewJFrame extends javax.swing.JFrame {
         jButton12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton12.setText("Geri");
 
-        jLabel19.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel19.setText("Kalan Borç    :");
-
-        lblTotalDebt.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblTotalDebt.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
+        lblTotalDebt.setForeground(new java.awt.Color(0, 153, 51));
         lblTotalDebt.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTotalDebt.setText("Kalan Borç:");
-
-        jLabel21.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel21.setText("TL");
 
         javax.swing.GroupLayout pCustomerLayout = new javax.swing.GroupLayout(pCustomer);
         pCustomer.setLayout(pCustomerLayout);
@@ -286,13 +278,9 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addComponent(jLabel9)
                     .addGroup(pCustomerLayout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel19)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblTotalDebt)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel21)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(lblTotalDebt)))
+                .addContainerGap(37, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pCustomerLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -324,19 +312,13 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addComponent(jLabel9)
                 .addGap(3, 3, 3)
                 .addGroup(pCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pCustomerLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
-                        .addGroup(pCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(pCustomerLayout.createSequentialGroup()
-                        .addGroup(pCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel19)
-                            .addComponent(lblTotalDebt)
-                            .addComponent(jLabel21))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblTotalDebt))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addGroup(pCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -547,11 +529,11 @@ public class NewJFrame extends javax.swing.JFrame {
         pSearchCustomerLayout.setHorizontalGroup(
             pSearchCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pSearchCustomerLayout.createSequentialGroup()
-                .addContainerGap(172, Short.MAX_VALUE)
+                .addContainerGap(173, Short.MAX_VALUE)
                 .addGroup(pSearchCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2)
                     .addComponent(tfGetSearchText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(189, Short.MAX_VALUE))
+                .addContainerGap(188, Short.MAX_VALUE))
             .addGroup(pSearchCustomerLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -585,16 +567,18 @@ public class NewJFrame extends javax.swing.JFrame {
 
         boxReportSecondDate.setFieldFont(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 14));
 
-        lblTotalSale.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblTotalSale.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        lblTotalSale.setForeground(new java.awt.Color(0, 153, 0));
         lblTotalSale.setText("Toplam Satış :");
 
-        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel16.setText("Gelen Nakit :");
 
-        jLabel17.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel17.setText("Toplam Satış :");
 
-        lblTotalPayment.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblTotalPayment.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        lblTotalPayment.setForeground(new java.awt.Color(0, 153, 0));
         lblTotalPayment.setText("Gelen Nakit :");
 
         jButton8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -620,11 +604,12 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel20.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel20.setText("TL");
+        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel18.setText("Genel Toplam Alacak :");
 
-        jLabel22.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel22.setText("TL");
+        lblGeneralDebt.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        lblGeneralDebt.setForeground(new java.awt.Color(0, 153, 0));
+        lblGeneralDebt.setText("Gelen Nakit :");
 
         javax.swing.GroupLayout pReportLayout = new javax.swing.GroupLayout(pReport);
         pReport.setLayout(pReportLayout);
@@ -635,22 +620,6 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addGroup(pReportLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pReportLayout.createSequentialGroup()
-                        .addGroup(pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pReportLayout.createSequentialGroup()
-                                .addGap(302, 302, 302)
-                                .addComponent(jLabel17)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblTotalSale))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pReportLayout.createSequentialGroup()
-                                .addGap(310, 310, 310)
-                                .addComponent(jLabel16)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblTotalPayment)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel20)
-                            .addComponent(jLabel22)))
                     .addGroup(pReportLayout.createSequentialGroup()
                         .addGap(108, 108, 108)
                         .addGroup(pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -663,7 +632,23 @@ public class NewJFrame extends javax.swing.JFrame {
                                 .addComponent(boxReportSecondDate, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(67, 67, 67)
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(pReportLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(pReportLayout.createSequentialGroup()
+                        .addComponent(jLabel18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblGeneralDebt))
+                    .addGroup(pReportLayout.createSequentialGroup()
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblTotalSale))
+                    .addGroup(pReportLayout.createSequentialGroup()
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblTotalPayment)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pReportLayout.setVerticalGroup(
             pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -677,16 +662,19 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addComponent(boxReportFirstDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(boxReportSecondDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(147, 147, 147)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 144, Short.MAX_VALUE)
                 .addGroup(pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblTotalSale)
-                    .addComponent(jLabel20))
+                    .addComponent(lblTotalSale))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblTotalPayment, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 162, Short.MAX_VALUE)
+                    .addComponent(lblTotalPayment)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblGeneralDebt)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(93, 93, 93)
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -700,6 +688,8 @@ public class NewJFrame extends javax.swing.JFrame {
         boxMissingCustomerDate.setFieldFont(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 14));
         boxMissingCustomerDate.setLocale(new java.util.Locale("tr", "TR", ""));
 
+        tbMissingCustomers.setAutoCreateRowSorter(true);
+        tbMissingCustomers.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tbMissingCustomers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -727,6 +717,11 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
         tbMissingCustomers.getTableHeader().setReorderingAllowed(false);
+        tbMissingCustomers.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbMissingCustomersMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tbMissingCustomers);
         tbMissingCustomers.getColumnModel().getColumn(0).setMinWidth(25);
         tbMissingCustomers.getColumnModel().getColumn(0).setPreferredWidth(25);
@@ -762,19 +757,18 @@ public class NewJFrame extends javax.swing.JFrame {
         pMissingCustomerLayout.setHorizontalGroup(
             pMissingCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pMissingCustomerLayout.createSequentialGroup()
-                .addGroup(pMissingCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap(84, Short.MAX_VALUE)
+                .addGroup(pMissingCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(pMissingCustomerLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pMissingCustomerLayout.createSequentialGroup()
-                        .addGap(166, 166, 166)
-                        .addGroup(pMissingCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pMissingCustomerLayout.createSequentialGroup()
-                                .addComponent(boxMissingCustomerDate, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(120, 120, 120)
-                                .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(194, Short.MAX_VALUE))
+                        .addComponent(boxMissingCustomerDate, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 644, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(85, Short.MAX_VALUE))
+            .addGroup(pMissingCustomerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pMissingCustomerLayout.setVerticalGroup(
             pMissingCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -953,6 +947,9 @@ public class NewJFrame extends javax.swing.JFrame {
             
             BigDecimal totalPayment = DatabaseOperations.getTotalPayment(startDate, finishDate);
             lblTotalPayment.setText(totalPayment.toString());
+            
+            BigDecimal generalDebt = DatabaseOperations.getGeneralDebt();
+            lblGeneralDebt.setText(generalDebt.toString());
         } catch (SQLException ex) {
             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -968,6 +965,19 @@ public class NewJFrame extends javax.swing.JFrame {
             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void tbMissingCustomersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbMissingCustomersMouseClicked
+        // TODO add your handling code here:
+            System.out.println(tbMissingCustomers.getSelectedRow());
+            int id = (int) tbMissingCustomers.getValueAt(tbMissingCustomers.getSelectedRow(), 0);
+            try {
+                currentCustomer = DatabaseOperations.getCustomer(id);
+                showCustomerCard(currentCustomer);
+
+            } catch (SQLException ex) {
+                Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }            
+    }//GEN-LAST:event_tbMissingCustomersMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1032,11 +1042,8 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
@@ -1045,6 +1052,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblAddress;
+    private javax.swing.JLabel lblGeneralDebt;
     private javax.swing.JLabel lblGsm;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblPbx;

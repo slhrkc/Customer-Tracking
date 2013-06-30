@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  */
 public class DatabaseOperations {
     
-    private static final String DB_NAME = "makarna"; // the name of the database
+    private static final String DB_NAME = "Spagetti"; // the name of the database
             
     private static String framework = "embedded";
     private static String driver = "org.apache.derby.jdbc.EmbeddedDriver";
@@ -48,6 +48,7 @@ public class DatabaseOperations {
     private static PreparedStatement selectTotalSale;
     private static PreparedStatement selectTotalPayment;
     private static PreparedStatement selectMissingCustomers;
+    private static PreparedStatement selectGeneralDebt;
 
 
 
@@ -73,6 +74,16 @@ public class DatabaseOperations {
 
         
 
+    }
+    public static BigDecimal getGeneralDebt() throws SQLException{
+        rs = selectGeneralDebt.executeQuery();
+        BigDecimal totalDebt = null;
+        
+        while(rs.next()) {totalDebt = rs.getBigDecimal(1);}
+        
+        if(totalDebt == null) { return BigDecimal.ZERO; }
+        
+        return totalDebt;
     }
     
     public static BigDecimal getTotalPayment(Date startingDate, Date finishingDate) throws SQLException{
@@ -231,7 +242,7 @@ public class DatabaseOperations {
     }
     
     /**
-     *
+     * Initializes the prepared statements for later use.
      */
     public static void initializePreparedStatements() throws SQLException{
                 
@@ -239,20 +250,21 @@ public class DatabaseOperations {
                 + "select "
                 + "Customer.c_id, "
                 + "totalDebt, "
-                + "cLastVisitDate, "
+                + "lastVisitDate, " // new column generated inside the query
                 + "cName, "
                 + "cSurName, "
                 + "cPbx, "
                 + "cGsm "
                 + "from Customer "
                 + "JOIN "
-                + "(select c_id, SUM(saleAmount - paymentAmount) as totalDebt "
+                + "(select c_id, SUM(saleAmount - paymentAmount) as totalDebt, MAX(transDate) as lastVisitDate "
                 + "from Trans "
                 + "group by c_id) Trans "
                 + "on Customer.c_id = Trans.c_id "
-                + "Where totalDebt > 0 AND cLastVisitDate < ? ");
+                + "Where totalDebt > 0 AND lastVisitDate < ? ");
         
 
+        selectGeneralDebt = conn.prepareStatement("select sum(saleAmount - paymentAmount) as generalDebt from Trans");
         
         selectTotalPayment = conn.prepareStatement("select sum (paymentAmount) as totalPayment from trans where transDate >= ? AND transDate <= ?");
         
