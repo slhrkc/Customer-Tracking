@@ -9,8 +9,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
@@ -30,8 +33,10 @@ import javax.swing.text.MaskFormatter;
  */
 public class NewJFrame extends javax.swing.JFrame {
     private Customer currentCustomer = new Customer();
-    private PaymentDialog paymentDialog = new PaymentDialog(this,true);
-    private SaleDialog saleDialog = new SaleDialog(this,true);
+    private PaymentDialog paymentDialog = new PaymentDialog(this, true);
+    private SaleDialog saleDialog = new SaleDialog(this, true);
+    private PaymentEditDialog paymentEditDialog = new PaymentEditDialog(this, true);
+    private SaleEditDialog saleEditDialog = new SaleEditDialog(this,true);
     
 
     /**
@@ -56,6 +61,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
         pHome = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
@@ -114,6 +120,9 @@ public class NewJFrame extends javax.swing.JFrame {
         tbMissingCustomers = new javax.swing.JTable();
         jButton10 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
+
+        jPopupMenu1.setMaximumSize(new java.awt.Dimension(60, 60));
+        jPopupMenu1.setMinimumSize(new java.awt.Dimension(60, 60));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Müşteri Takip Programı");
@@ -215,6 +224,11 @@ public class NewJFrame extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tbCustomerTrans.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbCustomerTransMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tbCustomerTrans);
@@ -632,7 +646,7 @@ public class NewJFrame extends javax.swing.JFrame {
                                 .addComponent(boxReportSecondDate, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(67, 67, 67)
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(81, Short.MAX_VALUE))
             .addGroup(pReportLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -662,7 +676,7 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addComponent(boxReportFirstDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(boxReportSecondDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 144, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
                 .addGroup(pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblTotalSale))
@@ -671,9 +685,9 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addComponent(lblTotalPayment)
                     .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblGeneralDebt)
-                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblGeneralDebt))
                 .addGap(93, 93, 93)
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -979,6 +993,50 @@ public class NewJFrame extends javax.swing.JFrame {
             }            
     }//GEN-LAST:event_tbMissingCustomersMouseClicked
 
+    private void tbCustomerTransMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbCustomerTransMouseClicked
+        if(evt.getClickCount()==2){
+                 
+                
+                System.out.println(tbCustomerTrans.getSelectedRow());
+                int id = (int) tbCustomerTrans.getValueAt(tbCustomerTrans.getSelectedRow(), 0);
+                
+                BigDecimal paymentAmount = (BigDecimal) tbCustomerTrans.getValueAt(tbCustomerTrans.getSelectedRow(), 3);
+                BigDecimal saleAmount = (BigDecimal) tbCustomerTrans.getValueAt(tbCustomerTrans.getSelectedRow(), 2);
+      
+                    Date transDate = (Date) tbCustomerTrans.getValueAt(tbCustomerTrans.getSelectedRow(), 1);
+
+
+                if(saleAmount.compareTo(BigDecimal.valueOf(0.00) ) < 1) {// Then it is a payment
+                    Payment p = new Payment(transDate, paymentAmount, currentCustomer);
+                    p.setId(id);
+                    paymentEditDialog.setDefaultPayment(p);
+                    paymentEditDialog.setCustomer(currentCustomer);
+                    
+                    paymentEditDialog.setLocationRelativeTo(this);
+                    paymentEditDialog.setVisible(true);
+                }
+                
+                else{
+                    Sale s = new Sale(transDate, saleAmount, paymentAmount, currentCustomer);
+                    s.setId(id);
+                    saleEditDialog.setDefaultSale(s);
+                    saleEditDialog.setCustomer(currentCustomer);
+                    saleEditDialog.setLocationRelativeTo(this);
+
+                    saleEditDialog.setVisible(true);
+                    
+                }
+                        
+               
+                    
+                   
+                    showCustomerCard(currentCustomer);
+
+          
+                           
+            }      
+    }//GEN-LAST:event_tbCustomerTransMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1048,6 +1106,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
