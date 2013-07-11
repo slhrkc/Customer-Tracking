@@ -49,6 +49,9 @@ public class DatabaseOperations {
     private static PreparedStatement selectTotalPayment;
     private static PreparedStatement selectMissingCustomers;
     private static PreparedStatement selectGeneralDebt;
+    private static PreparedStatement updatePayment;
+    private static PreparedStatement updateSale;
+    private static PreparedStatement deleteTrans;
 
 
 
@@ -75,6 +78,34 @@ public class DatabaseOperations {
         
 
     }
+    
+    public static void updatePayment(Payment tobeUpdated, Payment newPayment) throws SQLException{
+        updatePayment.setBigDecimal(1, newPayment.getPaymentAmount());
+        updatePayment.setDate(2, new java.sql.Date(newPayment.getDate().getTime()));
+        updatePayment.setInt(3, tobeUpdated.getId());
+        
+        updatePayment.executeUpdate();
+    }
+    
+    public static void updateSale(Sale tobeUpdated, Sale newSale) throws SQLException{
+        updateSale.setBigDecimal(1, newSale.getSaleAmount());
+        updateSale.setBigDecimal(2, newSale.getFirstPaymentAmount());
+        updateSale.setDate(3, new java.sql.Date(newSale.getDate().getTime()));
+        updateSale.setInt(4, tobeUpdated.getId());
+        
+        updateSale.executeUpdate();
+        
+        
+        
+    }
+    
+    public static void deleteTransaction(Transaction t) throws SQLException{
+        deleteTrans.setInt(1, t.getId());
+        
+        deleteTrans.executeUpdate();
+    }
+    
+    
     public static BigDecimal getGeneralDebt() throws SQLException{
         rs = selectGeneralDebt.executeQuery();
         BigDecimal totalDebt = null;
@@ -245,6 +276,29 @@ public class DatabaseOperations {
      * Initializes the prepared statements for later use.
      */
     public static void initializePreparedStatements() throws SQLException{
+        
+        deleteTrans = conn.prepareStatement(""
+                + "DELETE"
+                + "from TRANS"
+                + "WHERE t_id = ?"
+                );
+        
+        updatePayment = conn.prepareStatement(""
+                +"UPDATE trans"
+                + "SET"
+                + "paymentAmount = ?,"
+                + "paymentDate = ?"
+                + "WHERE t_id = ?"
+                );
+        
+        updateSale = conn.prepareStatement(""
+                + "UPDATE trans"
+                + "SET"
+                + "saleAmount = ?,"
+                + "firstPayAmount = ?,"
+                + "saleDate = ?"
+                + "where t_id = ?"
+                );
                 
         selectMissingCustomers = conn.prepareStatement(""
                 + "select "
@@ -261,7 +315,8 @@ public class DatabaseOperations {
                 + "from Trans "
                 + "group by c_id) Trans "
                 + "on Customer.c_id = Trans.c_id "
-                + "Where totalDebt > 0 AND lastVisitDate < ? ");
+                + "Where totalDebt > 0 AND lastVisitDate < ? "
+                );
         
 
         selectGeneralDebt = conn.prepareStatement("select sum(saleAmount - paymentAmount) as generalDebt from Trans");
