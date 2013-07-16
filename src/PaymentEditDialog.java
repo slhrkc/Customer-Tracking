@@ -3,19 +3,21 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author salih
  */
 public class PaymentEditDialog extends javax.swing.JDialog {
-        private boolean isPaymentConfirmed;
+
+    private boolean isPaymentConfirmed;
     private Payment payment;
     private Payment defaultPayment;
     private Customer customer;
@@ -27,50 +29,51 @@ public class PaymentEditDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
-    
-        /**
-     * Resets the previous submitted & changed values of components
-     * and refresh the JDialog for a new start.
+
+    /**
+     * Resets the previous submitted & changed values of components and refresh
+     * the JDialog for a new start.
      */
     @Override
-    public void setVisible(boolean isVisible){
-        if(isVisible == false){
+    public void setVisible(boolean isVisible) {
+        if (isVisible == false) {
             super.setVisible(isVisible);
             return;
         }
-        
+
         // Reset all the components
         initialize();
-        
+
         super.setVisible(isVisible);
-        
+
     }
-    
-    public void setDefaultPayment(Payment payment){
+
+    public void setDefaultPayment(Payment payment) {
         this.defaultPayment = payment;
     }
-    
+
     private void initialize() {
         Calendar date = Calendar.getInstance();
         date.setTime(defaultPayment.getDate());
         tfGetPaymentAmount.setText(defaultPayment.getPaymentAmount().toString());
         boxPaymentDate.setSelectedDate(date);
-        
-        
+
+
     }
-    
-    private void confirmPayment(){
+
+    private void confirmPayment() {
         this.isPaymentConfirmed = true;
     }
-    
-    private void setPayment(Date d, BigDecimal paymentAmount, Customer customer){
-        this.payment = new Payment(d,paymentAmount,customer);       
+
+    private void setPayment(Date d, BigDecimal paymentAmount, Customer customer) {
+        this.payment = new Payment(d, paymentAmount, customer);
     }
-    
-    public void setCustomer(Customer customer){
+
+    public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-    public boolean ispaymentConfirmed(){
+
+    public boolean ispaymentConfirmed() {
         return isPaymentConfirmed;
     }
 
@@ -105,6 +108,11 @@ public class PaymentEditDialog extends javax.swing.JDialog {
 
         jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton2.setText("Sil");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton3.setText("Geri");
@@ -166,27 +174,27 @@ public class PaymentEditDialog extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         int getOK;
-        try{
-            
+        try {
             BigDecimal money = new BigDecimal(tfGetPaymentAmount.getText());
             Date date = boxPaymentDate.getSelectedDate().getTime();
             setPayment(date, money, customer);
             confirmPayment();
-            
-            Object[] options = {"Onayla","Geri"};
-            getOK = JOptionPane.showOptionDialog(this, "Ödemeyi Onaylıyor musunuz?\n"+ payment.printRecipe(), "Ödeme Onay", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-            
-            if(getOK == 0){// Payment Confirmed by the user
-                DatabaseOperations.savePayment(payment);
+
+            Object[] options = {"Onayla", "Geri"};
+            getOK = JOptionPane.showOptionDialog(this, "Ödemeyi Onaylıyor musunuz?\n" + payment.printRecipe(), "Ödeme Onay", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+            if (getOK == 0) {
+                // Payment Confirmed by the user
+                DatabaseOperations.updatePayment(defaultPayment, payment);
                 JOptionPane.showMessageDialog(this, "Başarıyla kaydedildi.");
-                this.dispose();               
+                this.dispose();
             }
 
 
 
-            
 
-        }catch(NumberFormatException ex){
+
+        } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Ödeme tutarı hatalı!\nLütfen kontrol ediniz.");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "İşlem gerçekleştirelemedi!!");
@@ -198,6 +206,23 @@ public class PaymentEditDialog extends javax.swing.JDialog {
         this.dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        Object[] options = {"Onayla", "Geri"};
+        int getOK = JOptionPane.showOptionDialog(this, "İşlemi Silmeyi onaylıyor musunuz?\n"+defaultPayment.printRecipe() , "Ödeme Onay", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+        if (getOK == 0) {
+            try {
+                // Payment Confirmed by the user
+                DatabaseOperations.deleteTransaction(defaultPayment);
+                JOptionPane.showMessageDialog(this, "Başarıyla Silindi.");
+                this.dispose();
+            } catch (SQLException ex) {
+                Logger.getLogger(PaymentEditDialog.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -248,8 +273,4 @@ public class PaymentEditDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField tfGetPaymentAmount;
     // End of variables declaration//GEN-END:variables
-
-
-
-
 }

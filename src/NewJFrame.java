@@ -26,18 +26,17 @@ import javax.swing.text.MaskFormatter;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author salih
  */
 public class NewJFrame extends javax.swing.JFrame {
+
     private Customer currentCustomer = new Customer();
     private PaymentDialog paymentDialog = new PaymentDialog(this, true);
     private SaleDialog saleDialog = new SaleDialog(this, true);
     private PaymentEditDialog paymentEditDialog = new PaymentEditDialog(this, true);
-    private SaleEditDialog saleEditDialog = new SaleEditDialog(this,true);
-    
+    private SaleEditDialog saleEditDialog = new SaleEditDialog(this, true);
 
     /**
      * Creates new form NewJFrame
@@ -47,7 +46,7 @@ public class NewJFrame extends javax.swing.JFrame {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
         double height = screenSize.getHeight();
-        this.setLocation((int)width/2-400 , (int)height/2-250);
+        this.setLocation((int) width / 2 - 400, (int) height / 2 - 250);
         initComponents();
     }
 
@@ -202,7 +201,7 @@ public class NewJFrame extends javax.swing.JFrame {
         lblAddress.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblAddress.setText("jLabel8");
 
-        tbCustomerTrans.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tbCustomerTrans.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tbCustomerTrans.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -543,11 +542,11 @@ public class NewJFrame extends javax.swing.JFrame {
         pSearchCustomerLayout.setHorizontalGroup(
             pSearchCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pSearchCustomerLayout.createSequentialGroup()
-                .addContainerGap(173, Short.MAX_VALUE)
+                .addContainerGap(174, Short.MAX_VALUE)
                 .addGroup(pSearchCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2)
                     .addComponent(tfGetSearchText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(188, Short.MAX_VALUE))
+                .addContainerGap(187, Short.MAX_VALUE))
             .addGroup(pSearchCustomerLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -586,9 +585,11 @@ public class NewJFrame extends javax.swing.JFrame {
         lblTotalSale.setText("Toplam Satış :");
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel16.setText("Gelen Nakit :");
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel17.setText("Toplam Satış :");
 
         lblTotalPayment.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
@@ -619,6 +620,7 @@ public class NewJFrame extends javax.swing.JFrame {
         });
 
         jLabel18.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel18.setText("Genel Toplam Alacak :");
 
         lblGeneralDebt.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
@@ -649,19 +651,15 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addContainerGap(81, Short.MAX_VALUE))
             .addGroup(pReportLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(pReportLayout.createSequentialGroup()
-                        .addComponent(jLabel18)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblGeneralDebt))
-                    .addGroup(pReportLayout.createSequentialGroup()
-                        .addComponent(jLabel17)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblTotalSale))
-                    .addGroup(pReportLayout.createSequentialGroup()
-                        .addComponent(jLabel16)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblTotalPayment)))
+                .addGroup(pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel18)
+                    .addComponent(jLabel16)
+                    .addComponent(jLabel17))
+                .addGap(30, 30, 30)
+                .addGroup(pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTotalSale, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblTotalPayment, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblGeneralDebt, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pReportLayout.setVerticalGroup(
@@ -685,9 +683,9 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addComponent(lblTotalPayment)
                     .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblGeneralDebt))
+                .addGroup(pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblGeneralDebt)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(93, 93, 93)
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -805,27 +803,27 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        CardLayout cl = (CardLayout)getContentPane().getLayout();
+        CardLayout cl = (CardLayout) getContentPane().getLayout();
         cl.show(getContentPane(), "cardSearchCustomer");
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here
-        CardLayout cl = (CardLayout)getContentPane().getLayout();
+        CardLayout cl = (CardLayout) getContentPane().getLayout();
         cl.show(getContentPane(), "cardNewCustomer");
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        CardLayout cl = (CardLayout)getContentPane().getLayout();
+        CardLayout cl = (CardLayout) getContentPane().getLayout();
         cl.show(getContentPane(), "cardReport");
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
-        CardLayout cl = (CardLayout)getContentPane().getLayout();
+        CardLayout cl = (CardLayout) getContentPane().getLayout();
         cl.show(getContentPane(), "cardMissing");
-        
+
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void tfGetNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfGetNameActionPerformed
@@ -838,12 +836,11 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void tfGetSearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfGetSearchTextActionPerformed
         // TODO add your handling code here:
-        
     }//GEN-LAST:event_tfGetSearchTextActionPerformed
 
     private void tbCustomersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbCustomersMouseClicked
         // TODO add your handling code here:
-        if(evt.getClickCount()==2){
+        if (evt.getClickCount() == 2) {
             System.out.println(tbCustomers.getSelectedRow());
             int id = (int) tbCustomers.getValueAt(tbCustomers.getSelectedRow(), 0);
             try {
@@ -852,39 +849,39 @@ public class NewJFrame extends javax.swing.JFrame {
 
             } catch (SQLException ex) {
                 Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }            
             }
+        }
 
-        
+
     }//GEN-LAST:event_tbCustomersMouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        CardLayout cl = (CardLayout)getContentPane().getLayout();
+        CardLayout cl = (CardLayout) getContentPane().getLayout();
         cl.show(getContentPane(), "cardHome");
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
-        CardLayout cl = (CardLayout)getContentPane().getLayout();
+        CardLayout cl = (CardLayout) getContentPane().getLayout();
         cl.show(getContentPane(), "cardHome");
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
-        CardLayout cl = (CardLayout)getContentPane().getLayout();
+        CardLayout cl = (CardLayout) getContentPane().getLayout();
         cl.show(getContentPane(), "cardHome");
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
-        CardLayout cl = (CardLayout)getContentPane().getLayout();
+        CardLayout cl = (CardLayout) getContentPane().getLayout();
         cl.show(getContentPane(), "cardHome");
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void btSaveCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveCustomerActionPerformed
         // TODO add your handling code here:
-        if(!tfGetName.getText().isEmpty() && !tfGetSurname.getText().isEmpty()){
+        if (!tfGetName.getText().isEmpty() && !tfGetSurname.getText().isEmpty()) {
             try {
                 currentCustomer = new Customer();
                 currentCustomer.setCustomertoDatabase(tfGetName.getText(), tfGetSurname.getText(), tfGetAddress.getText(), tfGetPbx.getText(), tfGetGsm.getText(), Calendar.getInstance().getTime(), null);
@@ -892,16 +889,15 @@ public class NewJFrame extends javax.swing.JFrame {
                 currentCustomer = DatabaseOperations.saveCustomer(currentCustomer);
                 JOptionPane.showMessageDialog(this, "Müşteri Kaydedildi.");
                 showCustomerCard(currentCustomer);
-                
 
 
 
-                
+
+
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex);
             }
-        }
-        else{
+        } else {
         }
     }//GEN-LAST:event_btSaveCustomerActionPerformed
 
@@ -910,12 +906,12 @@ public class NewJFrame extends javax.swing.JFrame {
         paymentDialog.setCustomer(currentCustomer);
         paymentDialog.setLocationRelativeTo(this);
         paymentDialog.setVisible(true);
-        
+
         showCustomerCard(currentCustomer);
 
-        
-        
-        
+
+
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
@@ -923,31 +919,29 @@ public class NewJFrame extends javax.swing.JFrame {
         saleDialog.setCustomer(currentCustomer);
         saleDialog.setLocationRelativeTo(this);
         saleDialog.setVisible(true);
-        
+
         showCustomerCard(currentCustomer);
 
-        
+
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void tfGetSearchTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfGetSearchTextKeyTyped
-
-       
     }//GEN-LAST:event_tfGetSearchTextKeyTyped
 
     private void tfGetSearchTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfGetSearchTextKeyReleased
         try {
             // TODO add your handling code here:
-                ResultSet matchedCustomers = DatabaseOperations.searchCustomers(tfGetSearchText.getText());
-                tbCustomers = UIOperations.fillTable(tbCustomers, matchedCustomers);
-                
+            ResultSet matchedCustomers = DatabaseOperations.searchCustomers(tfGetSearchText.getText());
+            tbCustomers = UIOperations.fillTable(tbCustomers, matchedCustomers);
+
         } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(this, "Veritabanından veri okunamadı!!");
+            JOptionPane.showMessageDialog(this, "Veritabanından veri okunamadı!!");
         }
 
-        
-        
-        
-          
+
+
+
+
     }//GEN-LAST:event_tfGetSearchTextKeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -955,13 +949,13 @@ public class NewJFrame extends javax.swing.JFrame {
             // TODO add your handling code here:
             Date startDate = boxReportFirstDate.getSelectedDate().getTime();
             Date finishDate = boxReportSecondDate.getSelectedDate().getTime();
-            
+
             BigDecimal sale = DatabaseOperations.getTotalSale(startDate, finishDate);
             lblTotalSale.setText(sale.toString());
-            
+
             BigDecimal totalPayment = DatabaseOperations.getTotalPayment(startDate, finishDate);
             lblTotalPayment.setText(totalPayment.toString());
-            
+
             BigDecimal generalDebt = DatabaseOperations.getGeneralDebt();
             lblGeneralDebt.setText(generalDebt.toString());
         } catch (SQLException ex) {
@@ -982,66 +976,64 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void tbMissingCustomersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbMissingCustomersMouseClicked
         // TODO add your handling code here:
-            System.out.println(tbMissingCustomers.getSelectedRow());
-            int id = (int) tbMissingCustomers.getValueAt(tbMissingCustomers.getSelectedRow(), 0);
-            try {
-                currentCustomer = DatabaseOperations.getCustomer(id);
-                showCustomerCard(currentCustomer);
+        System.out.println(tbMissingCustomers.getSelectedRow());
+        int id = (int) tbMissingCustomers.getValueAt(tbMissingCustomers.getSelectedRow(), 0);
+        try {
+            currentCustomer = DatabaseOperations.getCustomer(id);
+            showCustomerCard(currentCustomer);
 
-            } catch (SQLException ex) {
-                Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }            
+        } catch (SQLException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_tbMissingCustomersMouseClicked
 
     private void tbCustomerTransMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbCustomerTransMouseClicked
-        if(evt.getClickCount()==2){
-                 
-                
-                System.out.println(tbCustomerTrans.getSelectedRow());
-                int id = (int) tbCustomerTrans.getValueAt(tbCustomerTrans.getSelectedRow(), 0);
-                
-                BigDecimal paymentAmount = (BigDecimal) tbCustomerTrans.getValueAt(tbCustomerTrans.getSelectedRow(), 3);
-                BigDecimal saleAmount = (BigDecimal) tbCustomerTrans.getValueAt(tbCustomerTrans.getSelectedRow(), 2);
-      
-                    Date transDate = (Date) tbCustomerTrans.getValueAt(tbCustomerTrans.getSelectedRow(), 1);
+        if (evt.getClickCount() == 2) {
 
 
-                if(saleAmount.compareTo(BigDecimal.valueOf(0.00) ) < 1) {// Then it is a payment
-                    Payment p = new Payment(transDate, paymentAmount, currentCustomer);
-                    p.setId(id);
-                    paymentEditDialog.setDefaultPayment(p);
-                    paymentEditDialog.setCustomer(currentCustomer);
-                    
-                    paymentEditDialog.setLocationRelativeTo(this);
-                    paymentEditDialog.setVisible(true);
-                }
-                
-                else{
-                    Sale s = new Sale(transDate, saleAmount, paymentAmount, currentCustomer);
-                    s.setId(id);
-                    saleEditDialog.setDefaultSale(s);
-                    saleEditDialog.setCustomer(currentCustomer);
-                    saleEditDialog.setLocationRelativeTo(this);
+            System.out.println(tbCustomerTrans.getSelectedRow());
+            int id = (int) tbCustomerTrans.getValueAt(tbCustomerTrans.getSelectedRow(), 0);
 
-                    saleEditDialog.setVisible(true);
-                    
-                }
-                        
-               
-                    
-                   
-                    showCustomerCard(currentCustomer);
+            BigDecimal paymentAmount = (BigDecimal) tbCustomerTrans.getValueAt(tbCustomerTrans.getSelectedRow(), 3);
+            BigDecimal saleAmount = (BigDecimal) tbCustomerTrans.getValueAt(tbCustomerTrans.getSelectedRow(), 2);
 
-          
-                           
-            }      
+            Date transDate = (Date) tbCustomerTrans.getValueAt(tbCustomerTrans.getSelectedRow(), 1);
+
+
+            if (saleAmount.compareTo(BigDecimal.valueOf(0.00)) < 1) {// Then it is a payment
+                Payment p = new Payment(transDate, paymentAmount, currentCustomer);
+                p.setId(id);
+                paymentEditDialog.setDefaultPayment(p);
+                paymentEditDialog.setCustomer(currentCustomer);
+
+                paymentEditDialog.setLocationRelativeTo(this);
+                paymentEditDialog.setVisible(true);
+            } else {
+                Sale s = new Sale(transDate, saleAmount, paymentAmount, currentCustomer);
+                s.setId(id);
+                saleEditDialog.setDefaultSale(s);
+                saleEditDialog.setCustomer(currentCustomer);
+                saleEditDialog.setLocationRelativeTo(this);
+
+                saleEditDialog.setVisible(true);
+
+            }
+
+
+
+            // After the process completed, refresh the Customer panel.                   
+            showCustomerCard(currentCustomer);
+
+
+
+        }
     }//GEN-LAST:event_tbCustomerTransMouseClicked
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -1136,47 +1128,46 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField tfGetSurname;
     // End of variables declaration//GEN-END:variables
 
-protected MaskFormatter createFormatter(String s) {
-    MaskFormatter formatter = null;
-    try {
-        formatter = new MaskFormatter(s);
-    } catch (java.text.ParseException exc) {
-        System.err.println("formatter is bad: " + exc.getMessage());
-        System.exit(-1);
+    protected MaskFormatter createFormatter(String s) {
+        MaskFormatter formatter = null;
+        try {
+            formatter = new MaskFormatter(s);
+        } catch (java.text.ParseException exc) {
+            System.err.println("formatter is bad: " + exc.getMessage());
+            System.exit(-1);
+        }
+        return formatter;
     }
-    return formatter;
-}
 
-private  void showCustomerCard(Customer customer){
+    private void showCustomerCard(Customer customer) {
 
         try {
-            
+
             // Get the total debt of the customer and put it into the customer's totaldebt field.
             customer = DatabaseOperations.getTotalDebt(customer);
-            
+
             // Get all the transactions of the customer
             ResultSet transactions = DatabaseOperations.getTransactions(customer);
-            
-           // Setting up the transactions table
+
+            // Setting up the transactions table
             tbCustomerTrans = UIOperations.fillTable(tbCustomerTrans, transactions);
-            
-            
+
+
         } catch (SQLException ex) {
             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         // Initialize the Customer Panel        
-    lblName.setText(customer.name);
-    lblSurname.setText(customer.lastName);
-    lblAddress.setText(customer.address);
-    lblPbx.setText(customer.pbx);
-    lblGsm.setText(customer.gsm);
-    lblTotalDebt.setText(customer.totalDebt.toString());
-    
-    CardLayout cl = (CardLayout)getContentPane().getLayout();
-    cl.show(getContentPane(), "cardCustomer");
-        
-    
-}
- 
+        lblName.setText(customer.name);
+        lblSurname.setText(customer.lastName);
+        lblAddress.setText(customer.address);
+        lblPbx.setText(customer.pbx);
+        lblGsm.setText(customer.gsm);
+        lblTotalDebt.setText(customer.totalDebt.toString());
+
+        CardLayout cl = (CardLayout) getContentPane().getLayout();
+        cl.show(getContentPane(), "cardCustomer");
+
+
+    }
 }

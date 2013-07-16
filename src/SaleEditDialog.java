@@ -3,25 +3,24 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author salih
  */
 public class SaleEditDialog extends javax.swing.JDialog {
-        private boolean isSaleConfirmed;
+
+    private boolean isSaleConfirmed;
     private Sale sale;
     private Customer customer;
-        private Sale defaultSale;
-
-    
-    
+    private Sale defaultSale;
 
     /**
      * Creates new form SaleEditDialog
@@ -30,50 +29,52 @@ public class SaleEditDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
-    
-    
+
     @Override
-    public void setVisible(boolean isVisible){
-        if(isVisible == false){
+    public void setVisible(boolean isVisible) {
+        if (isVisible == false) {
             super.setVisible(isVisible);
             return;
         }
-        
+
         // Reset all the components
         initialize();
-        
+
         super.setVisible(isVisible);
-        
+
     }
-        
-    public void initialize(){
+
+    public void initialize() {
         Calendar date = Calendar.getInstance();
         date.setTime(defaultSale.getDate());
-        
+
         boxGetDate.setSelectedDate(date);
-        
+
         tfGetSaleAmount.setText(defaultSale.getSaleAmount().toString());
         tfGetPaymentAmount.setText(defaultSale.getFirstPaymentAmount().toString());
-        
-        
+
+
     }
-    public void setDefaultSale(Sale sale){ this.defaultSale = sale; }
-    
-    private void confirmSale(){
+
+    public void setDefaultSale(Sale sale) {
+        this.defaultSale = sale;
+    }
+
+    private void confirmSale() {
         this.isSaleConfirmed = true;
     }
-    
-    private void setSale(Date d, BigDecimal saleAmount, BigDecimal firstPaymentAmount, Customer customer){
-        this.sale = new Sale(d, saleAmount, firstPaymentAmount, customer);       
+
+    private void setSale(Date d, BigDecimal saleAmount, BigDecimal firstPaymentAmount, Customer customer) {
+        this.sale = new Sale(d, saleAmount, firstPaymentAmount, customer);
     }
-    public void setCustomer(Customer customer){
+
+    public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-    public boolean isSaleConfirmed(){
+
+    public boolean isSaleConfirmed() {
         return isSaleConfirmed;
     }
-        
-        
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -105,6 +106,11 @@ public class SaleEditDialog extends javax.swing.JDialog {
 
         jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton2.setText("Sil");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton3.setText("Geri");
@@ -183,34 +189,51 @@ public class SaleEditDialog extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        int getOK ;
-        try{
-            
+        int getOK;
+        try {
+
             BigDecimal firstPayment = new BigDecimal(tfGetPaymentAmount.getText());
             BigDecimal saleAmount = new BigDecimal(tfGetSaleAmount.getText());
             Date date = boxGetDate.getSelectedDate().getTime();
             setSale(date, saleAmount, firstPayment, customer);
             confirmSale();
-            
-            Object[] options = {"Onayla","Geri"};
-            getOK = JOptionPane.showOptionDialog(this, "Satışı  Onaylıyor musunuz?\n"+ sale.printRecipe(), "Satış Onay", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-            
-            if(getOK == 0){ // Payment Confirmed by the user
-                DatabaseOperations.saveSale(sale);
+
+            Object[] options = {"Onayla", "Geri"};
+            getOK = JOptionPane.showOptionDialog(this, "Satışı  Onaylıyor musunuz?\n" + sale.printRecipe(), "Satış Onay", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+            if (getOK == 0) { // Payment Confirmed by the user
+                DatabaseOperations.updateSale(defaultSale, sale);
                 JOptionPane.showMessageDialog(this, "Başarıyla güncellendi.");
-                this.dispose();               
+                this.dispose();
             }
 
 
 
-            
 
-        }catch(NumberFormatException ex){
+
+        } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Ödeme tutarı hatalı!\nLütfen kontrol ediniz.");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "İşlem gerçekleştirelemedi!!");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        Object[] options = {"Onayla", "Geri"};
+        int getOK = JOptionPane.showOptionDialog(this, "İşlemi Silmeyi onaylıyor musunuz?\n" + defaultSale.printRecipe(), "Ödeme Onay", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+        if (getOK == 0) {
+            try {
+                // Payment Confirmed by the user
+                DatabaseOperations.deleteTransaction(defaultSale);
+                JOptionPane.showMessageDialog(this, "Başarıyla Silindi.");
+                this.dispose();
+            } catch (SQLException ex) {
+                Logger.getLogger(PaymentEditDialog.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

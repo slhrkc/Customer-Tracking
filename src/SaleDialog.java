@@ -9,12 +9,12 @@ import javax.swing.JOptionPane;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author salih
  */
 public class SaleDialog extends javax.swing.JDialog {
+
     private boolean isSaleConfirmed;
     private Sale sale;
     private Customer customer;
@@ -141,45 +141,42 @@ public class SaleDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
     @Override
-    public void setVisible(boolean isVisible){
-        if(isVisible == false){
+    public void setVisible(boolean isVisible) {
+        if (isVisible == false) {
             super.setVisible(isVisible);
             return;
         }
-        
+
         // Reset all the components
         clear();
-        
+
         super.setVisible(isVisible);
-        
+
     }
+
     private void clear() {
         this.boxSaleDate.setSelectedDate(Calendar.getInstance());
         this.isSaleConfirmed = false;
         this.sale = null;
         this.tfGetSaleAmount.setText("");
-        this.tfGetFirstPaymentAmount.setText("");        
+        this.tfGetFirstPaymentAmount.setText("");
     }
-    
-    public void setCustomer(Customer customer){
+
+    public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-    public boolean isSaleConfirmed(){
+
+    public boolean isSaleConfirmed() {
         return isSaleConfirmed;
     }
-    
-    
-    
 
-    
-    private void confirmSale(){
+    private void confirmSale() {
         this.isSaleConfirmed = true;
     }
-    
-    private void setSale(Date d, BigDecimal saleAmount, BigDecimal firstPaymentAmount, Customer customer){
-        this.sale = new Sale(d, saleAmount, firstPaymentAmount, customer);       
+
+    private void setSale(Date d, BigDecimal saleAmount, BigDecimal firstPaymentAmount, Customer customer) {
+        this.sale = new Sale(d, saleAmount, firstPaymentAmount, customer);
     }
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
@@ -188,47 +185,47 @@ public class SaleDialog extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * Method for the button OK
-     * @param evt 
+     *
+     * @param evt
      */
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        int getOK ;
-        try{
-            
+        int getOK;
+        try {
+
             BigDecimal firstPayment = new BigDecimal(tfGetFirstPaymentAmount.getText());
             BigDecimal saleAmount = new BigDecimal(tfGetSaleAmount.getText());
             Date date = boxSaleDate.getSelectedDate().getTime();
             setSale(date, saleAmount, firstPayment, customer);
             confirmSale();
-            
-            Object[] options = {"Onayla","Geri"};
-            getOK = JOptionPane.showOptionDialog(this, "Satışı  Onaylıyor musunuz?\n"+ sale.printRecipe(), "Satış Onay", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-            
-            if(getOK == 0){// Payment Confirmed by the user
+
+            Object[] options = {"Onayla", "Geri"};
+            getOK = JOptionPane.showOptionDialog(this, "Satışı  Onaylıyor musunuz?\n" + sale.printRecipe(), "Satış Onay", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+            if (getOK == 0) {// Payment Confirmed by the user
                 DatabaseOperations.saveSale(sale);
                 JOptionPane.showMessageDialog(this, "Satış işlemi  başarıyla gerçekleştirildi.");
-                this.dispose();               
+                this.dispose();
             }
 
 
 
-            
 
-        }catch(NumberFormatException ex){
+
+        } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Ödeme tutarı hatalı!\nLütfen kontrol ediniz.");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "İşlem gerçekleştirelemedi!!");
         }
-        
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-                this.dispose();
+        this.dispose();
 
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -284,6 +281,4 @@ public class SaleDialog extends javax.swing.JDialog {
     private javax.swing.JTextField tfGetFirstPaymentAmount;
     private javax.swing.JTextField tfGetSaleAmount;
     // End of variables declaration//GEN-END:variables
-
- 
 }
