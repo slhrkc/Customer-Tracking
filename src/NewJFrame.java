@@ -31,7 +31,8 @@ import javax.swing.text.MaskFormatter;
  * @author salih
  */
 public class NewJFrame extends javax.swing.JFrame {
-
+    
+    private String previousPanel;
     private Customer currentCustomer = new Customer();
     private PaymentDialog paymentDialog = new PaymentDialog(this, true);
     private SaleDialog saleDialog = new SaleDialog(this, true);
@@ -225,6 +226,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tbCustomerTrans.getTableHeader().setReorderingAllowed(false);
         tbCustomerTrans.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbCustomerTransMouseClicked(evt);
@@ -259,6 +261,11 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jButton12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton12.setText("Geri");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
 
         lblTotalDebt.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
         lblTotalDebt.setForeground(new java.awt.Color(0, 153, 51));
@@ -293,7 +300,7 @@ public class NewJFrame extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(lblTotalDebt)))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pCustomerLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -336,6 +343,7 @@ public class NewJFrame extends javax.swing.JFrame {
         );
 
         getContentPane().add(pCustomer, "cardCustomer");
+        int x;
 
         pNewCustomer.setMaximumSize(new java.awt.Dimension(800, 500));
         pNewCustomer.setMinimumSize(new java.awt.Dimension(800, 500));
@@ -845,7 +853,7 @@ public class NewJFrame extends javax.swing.JFrame {
             int id = (int) tbCustomers.getValueAt(tbCustomers.getSelectedRow(), 0);
             try {
                 currentCustomer = DatabaseOperations.getCustomer(id);
-                showCustomerCard(currentCustomer);
+                showCustomerCard(currentCustomer, "cardSearchCustomer");
 
             } catch (SQLException ex) {
                 Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -888,7 +896,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
                 currentCustomer = DatabaseOperations.saveCustomer(currentCustomer);
                 JOptionPane.showMessageDialog(this, "Müşteri Kaydedildi.");
-                showCustomerCard(currentCustomer);
+                showCustomerCard(currentCustomer,"cardNewCustomer");
 
 
 
@@ -980,7 +988,7 @@ public class NewJFrame extends javax.swing.JFrame {
         int id = (int) tbMissingCustomers.getValueAt(tbMissingCustomers.getSelectedRow(), 0);
         try {
             currentCustomer = DatabaseOperations.getCustomer(id);
-            showCustomerCard(currentCustomer);
+            showCustomerCard(currentCustomer, "cardMissing");
 
         } catch (SQLException ex) {
             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -1028,6 +1036,12 @@ public class NewJFrame extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_tbCustomerTransMouseClicked
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        // TODO add your handling code here:
+        CardLayout cl = (CardLayout) getContentPane().getLayout();
+        cl.show(getContentPane(), previousPanel);
+    }//GEN-LAST:event_jButton12ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1139,6 +1153,10 @@ public class NewJFrame extends javax.swing.JFrame {
         return formatter;
     }
 
+    private void showCustomerCard(Customer customer, String previous){
+        previousPanel = previous;
+        showCustomerCard(customer);
+    }
     private void showCustomerCard(Customer customer) {
 
         try {
